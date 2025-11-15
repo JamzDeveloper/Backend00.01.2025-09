@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hack 5 - Felices Ledesma</title>
+    <style>
+    :root{
+        --bg:#0f1720;
+        --card:#0b1220;
+        --muted:#9aa4b2;
+        --accent:#06b6d4;
+        --ok:#16a34a;
+        --danger:#ef4444
+    }
+
+    body{
+        font-family:Inter,system-ui,Arial;
+        background:linear-gradient(180deg,#071022 0%,var(--bg) 100%);
+        color:#e6eef6;
+        margin:0;
+        padding:24px
+    }
+
+    h1{
+        margin:0 0 16px;
+        color:var(--accent)
+    }
+
+    .container{
+        max-width:1100px;
+        margin:0 auto;
+        display:grid;
+        grid-template-columns:360px 1fr;
+        gap:18px
+    }
+
+    .card{
+        background:var(--card);
+        padding:14px;
+        border-radius:10px;
+        box-shadow:0 6px 20px rgba(2,6,23,.6)
+    }
+
+    label{
+        display:block;
+        font-size:.9rem;
+        color:var(--muted);
+        margin-top:8px
+    }
+
+    input,select,textarea{
+        width:100%;
+        padding:8px;
+        border-radius:6px;
+        border:1px solid #123;
+        background:#071022;
+        color:#e6eef6;
+        margin-top:6px
+    }
+
+    button{
+        margin-top:10px;
+        padding:8px 10px;
+        border-radius:7px;
+        border:none;
+        cursor:pointer;
+        background:var(--accent);
+        color:#042024
+    }
+
+    .small{
+        font-size:.85rem;
+        color:var(--muted)
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:10px
+    }
+
+    th,td{
+        padding:8px;
+        border-bottom:1px solid rgba(255,255,255,0.03);
+        text-align:left;
+        font-size:.9rem
+    }
+
+    .pill{
+        display:inline-block;
+        padding:4px 8px;
+        border-radius:999px;
+        background:#0b2430;
+        color:#9ff2ff;
+        font-size:.8rem
+    }
+
+    .actions button{
+        margin-right:6px
+    }
+
+    .status{
+        font-weight:600;
+        padding:6px 8px;
+        border-radius:6px
+    }
+
+    .st-received{
+        background:#0b2a12;
+        color:var(--ok)
+    } 
+    
+    .st-diagnosed{
+        background:#1a2b44;color:#bde0ff
+    }
+
+    .st-authorized{
+        background:#0a3b3b;color:#bffcf6
+    } 
+        
+    .st-repairing{
+        background:#4b2a8b;color:#f0e8ff
+    }
+
+    .st-waiting{
+        background:#5a4300;
+        color:#fff0c2
+    } 
+        
+    .st-completed{
+        background:#0b3b14;color:#d6ffea
+    }
+
+    .muted{
+        color:var(--muted)
+    }
+    .grid{
+        display:grid;grid-template-columns:1fr 1fr;gap:10px
+    }
+
+    .parts-list{
+        margin-top:8px
+    }
+
+    .note{
+        font-size:.85rem;
+        color:var(--muted);
+        margin-top:6px
+    }
+
+    footer{
+        margin-top:20px;
+        color:var(--muted);
+        font-size:.85rem;
+        text-align:center
+    }
+    </style>
+</head>
+<body>
+    <h1>Sistema de Reparaciones</h1>
+    <div class="container">
+
+    <div class="card">
+        <h3>Registrar teléfono / crear orden</h3>
+
+        <label>Propietario</label>
+        <input id="owner" placeholder="Nombre del cliente" />
+
+        <label>Marca</label>
+        <input id="brand" placeholder="Ej: Samsung, Apple, Xiaomi..." />
+
+        <label>Modelo</label>
+        <input id="model" placeholder="Modelo" />
+
+        <label>Número de serie</label>
+        <input id="serial" placeholder="Serial único" />
+
+        <label>IMEI</label>
+        <input id="imei" placeholder="IMEI único" />
+
+        <label>Diagnóstico inicial (breve)</label>
+        <textarea id="initialDiag" rows="2" placeholder="Ej: pantalla rota, no enciende...">
+        </textarea>
+
+        <label>Estimado de reparación (USD)</label>
+        <input id="estimate" type="number" min="0" value="100" />
+
+        <button id="createBtn">Crear orden</button>
+
+        <hr style="border:none;height:1px;background:rgba(255,255,255,.03);margin:12px 0">
+
+        <h3>Técnicos (muestra y asignación)</h3>
+        <div class="small">Técnicos disponibles (skills = marcas)</div>
+        <div id="techList" class="note"></div>
+
+        <hr style="border:none;height:1px;background:rgba(255,255,255,.03);margin:12px 0">
+
+        <h3>Agregar técnico de prueba</h3>
+        <label>Nombre técnico</label>
+        <input id="techName" placeholder="Ej: Juan" />
+        <label>Skills (separadas por comas)</label>
+        <input id="techSkills" placeholder="Samsung,Apple" />
+        <button id="addTech">Agregar técnico</button>
+
+        <hr style="border:none;height:1px;background:rgba(255,255,255,.03);margin:12px 0">
+
+        <h3>Repuestos globales (ejemplos)</h3>
+        <div class="small">Puedes añadir repuestos desde la orden.</div>
+        <div class="parts-list" id="partsDemo"></div>
+    </div>
+
+    <div class="card">
+        <h3>Órdenes de reparación</h3>
+        <div class="small muted">Lista en tiempo real. Usa acciones para cambiar estados, asignar técnicos o agregar repuestos.</div>
+        <table id="ordersTable">
+        <thead>
+            <tr><th>ID</th><th>Cliente</th><th>Equipo</th><th>Estado</th><th>Total USD</th><th>Acciones</th></tr>
+        </thead>
+        <tbody></tbody>
+        </table>
+
+        <hr style="border:none;height:1px;background:rgba(255,255,255,.03);margin:12px 0">
+
+        <div id="detailArea" class="muted">Selecciona una orden para ver detalle y acciones avanzadas.</div>
+    </div>
+    </div>
+
+    <footer>Implementación con Clases ES6 — sin backend — demo local</footer>
+
+    <script>
+    class Phone {
+        constructor({brand, model, serial, imei, owner}) {
+            this.brand = brand.trim();
+            this.model = model.trim();
+            this.serial = serial.trim();
+            this.imei = imei.trim();
+            this.owner = owner.trim();
+        }
+    }
+
+    class Part {
+        constructor(name, price){
+            this.name = name;
+            this.price = Number(price) || 0;
+        }
+    }
+
+    class Technician {
+        constructor(name, skills = []){
+            this.id = Technician.nextId();
+            this.name = name;
+            this.skills = [...new Set(skills.map(s => s.trim().toLowerCase()))]; // marcas en minúscula
+        }
+        static nextId(){
+            Technician._id = (Technician._id || 0) + 1;
+            return Technician._id;
+        }
+        canHandle(brand){
+            return this.skills.includes(brand.trim().toLowerCase());
+        }
+    }
+
+    class RepairOrder {
+        constructor(phone, initialDiagnosis, estimate){
+            this.id = RepairOrder.nextId();
+            this.phone = phone;
+            this.initialDiagnosis = initialDiagnosis || '';
+            this.estimate = Number(estimate) || 0; // estimado inicial
+            this.parts = []; // Part[]
+            this.technician = null;
+            this.authorizationText = null;
+            this.paid = 0;
+            this.status = 'RECEIVED'; // RECEIVED -> DIAGNOSED -> AUTHORIZED -> REPAIRING -> WAITING_PARTS -> COMPLETED
+            this.history = [{when: new Date(), msg: 'Orden creada'}];
+        }
+
+        static nextId(){
+            RepairOrder._id = (RepairOrder._id || 0) + 1;
+            return RepairOrder._id;
+        }
+
+        addPart(part){
+            this.parts.push(part);
+            this.history.push({when: new Date(), msg: `Repuesto ${part.name} ($${part.price}) agregado`});
+        }
+
+        assignTechnician(tech){
+            if(!tech) throw new Error('Técnico inválido');
+            if(!tech.canHandle(this.phone.brand)) throw new Error('Técnico no tiene skill para esta marca');
+            this.technician = tech;
+            this.history.push({when: new Date(), msg: `Técnico ${tech.name} asignado`});
+        }
+
+        setDiagnosis(text){
+            this.initialDiagnosis = text;
+            this.status = 'DIAGNOSED';
+            this.history.push({when: new Date(), msg: 'Diagnóstico inicial guardado'});
+        }
+
+        authorize(text, amount){
+            if(!text || text.trim().length < 3) throw new Error('Se requiere autorización escrita');
+            const min = this.totalCost() * 0.5;
+            if(Number(amount) < min) throw new Error(`Abono insuficiente. Mínimo requerido: $${min.toFixed(2)}`);
+            this.authorizationText = text;
+            this.paid += Number(amount);
+            this.status = 'AUTHORIZED';
+            this.history.push({when: new Date(), msg: `Autorizado (abono $${amount})`});
+        }
+
+        pay(amount){
+            this.paid += Number(amount);
+            this.history.push({when: new Date(), msg: `Pago de $${amount}`});
+        }
+
+        totalPartsCost(){
+            return this.parts.reduce((s,p)=> s + p.price, 0);
+        }
+
+        totalCost(){
+            return Number(this.estimate) + this.totalPartsCost();
+        }
+
+        startRepair(){
+            if(this.status !== 'AUTHORIZED') throw new Error('Reparación no autorizada');
+            if(!this.technician) throw new Error('No hay técnico asignado');
+            this.status = 'REPAIRING';
+            this.history.push({when: new Date(), msg: 'Reparación iniciada'});
+        }
+
+        complete(){
+            this.status = 'COMPLETED';
+            this.history.push({when: new Date(), msg: 'Reparación completada'});
+        }
+
+        markWaitingParts(){
+            this.status = 'WAITING_PARTS';
+            this.history.push({when: new Date(), msg: 'En espera de repuestos'});
+        }
+    }
+
+    const registry = {
+        technicians: [],
+        orders: [],
+        reportedSerials: new Set(), // números de serie ya en el sistema (simula reportados)
+        reportedImeis: new Set()
+    };
+
+    const $ = id => document.getElementById(id);
+
+    function renderTechList(){
+        const out = registry.technicians.map(t => `${t.id}. ${t.name} — [${t.skills.join(', ')}]`).join('<br>');
+        $('techList').innerHTML = out || '<span class="muted">No hay técnicos registrados</span>';
+    
+        $('partsDemo').innerHTML = ['Pantalla $60','Batería $25','Conector $12'].map(s=>`<div class="pill">${s}</div>`).join(' ');
+    }
+
+    function renderOrdersTable(){
+        const tbody = document.querySelector('#ordersTable tbody');
+        tbody.innerHTML = '';
+        registry.orders.forEach(order => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+            <td>#${order.id}</td>
+            <td>${order.phone.owner}</td>
+            <td>${order.phone.brand} ${order.phone.model}</td>
+            <td><span class="status ${statusClass(order.status)}">${statusLabel(order.status)}</span></td>
+            <td>$${order.totalCost().toFixed(2)}</td>
+            <td class="actions">
+                <button onclick="viewDetail(${order.id})">Ver</button>
+                <button onclick="advance(${order.id})">Avanzar</button>
+            </td>
+            `;
+            tbody.appendChild(tr);
+        });
+        if(registry.orders.length===0){
+            tbody.innerHTML = `<tr><td colspan="6" class="muted">No hay órdenes</td></tr>`;
+        }
+    }
+
+    function statusLabel(s){
+        switch(s){
+            case 'RECEIVED': return 'Recibido';
+            case 'DIAGNOSED': return 'Diagnosticado';
+            case 'AUTHORIZED': return 'Autorizado';
+            case 'REPAIRING': return 'En reparación';
+            case 'WAITING_PARTS': return 'Esperando repuestos';
+            case 'COMPLETED': return 'Completado';
+            default: return s;
+        }
+    }
+    function statusClass(s){
+        return {
+            'RECEIVED':'st-received',
+            'DIAGNOSED':'st-diagnosed',
+            'AUTHORIZED':'st-authorized',
+            'REPAIRING':'st-repairing',
+            'WAITING_PARTS':'st-waiting',
+            'COMPLETED':'st-completed'
+        }[s] || '';
+    }
+
+    function notify(msg){
+        alert(msg);
+    }
+
+    function createOrder(){
+        try {
+            const owner = $('owner').value.trim();
+            const brand = $('brand').value.trim();
+            const model = $('model').value.trim();
+            const serial = $('serial').value.trim();
+            const imei = $('imei').value.trim();
+            const diag = $('initialDiag').value.trim();
+            const estimate = Number($('estimate').value);
+
+            if(!owner||!brand||!serial||!imei) return notify('Completa propietario, marca, serial e IMEI');
+
+            // verificar serial y imei no reportados
+            if(registry.reportedSerials.has(serial)) return notify('El número de serie ya está reportado / registrado');
+            if(registry.reportedImeis.has(imei)) return notify('El IMEI ya está reportado / registrado');
+
+            const phone = new Phone({brand, model, serial, imei, owner});
+            const order = new RepairOrder(phone, diag, estimate);
+
+            // marcar serial/imei como registrados (simulamos el "reportado en el sistema")
+            registry.reportedSerials.add(serial);
+            registry.reportedImeis.add(imei);
+
+            registry.orders.push(order);
+            renderOrdersTable();
+            renderTechList();
+            notify(`Orden #${order.id} creada`);
+            clearForm();
+        } catch(err) {
+            notify('Error al crear orden: ' + err.message);
+        }
+    }
+
+    function clearForm(){
+        ['owner','brand','model','serial','imei','initialDiag','estimate'].forEach(id=>$(id).value='');
+        $('estimate').value = 100;
+    }
+
+    function viewDetail(id){
+        const order = registry.orders.find(o=>o.id===id);
+        if(!order) return;
+        const detail = $('detailArea');
+        detail.innerHTML = `
+            <h4>Orden #${order.id} — <span class="muted">Detalle</span></h4>
+            <div class="small">Cliente: <b>${order.phone.owner}</b></div>
+            <div class="small">Equipo: <b>${order.phone.brand} ${order.phone.model}</b></div>
+            <div class="small">Serial / IMEI: ${order.phone.serial} / ${order.phone.imei}</div>
+            <div class="small">Diagnóstico: ${order.initialDiagnosis || '<i class="muted">sin diagnóstico</i>'}</div>
+            <div class="small">Estimado: $${order.estimate.toFixed(2)}</div>
+            <div class="small">Repuestos: $${order.totalPartsCost().toFixed(2)}</div>
+            <div class="small">Total: <b>$${order.totalCost().toFixed(2)}</b></div>
+            <div class="small">Pagado: $${order.paid.toFixed(2)}</div>
+            <div class="small">Estado: <span class="status ${statusClass(order.status)}">${statusLabel(order.status)}</span></div>
+            <hr style="border:none;height:1px;background:rgba(255,255,255,.03);margin:10px 0">
+            <div class="grid">
+            <div>
+                <label>Diagnóstico (editar)</label>
+                <textarea id="diagEdit" rows=2>${order.initialDiagnosis || ''}</textarea>
+                <button onclick="saveDiag(${order.id})">Guardar diagnóstico</button>
+            </div>
+            <div>
+                <label>Asignar técnico (filtrado por marca)</label>
+                <select id="techSelect">${registry.technicians.map(t=>`<option value="${t.id}">${t.name} [${t.skills.join(', ')}]</option>`).join('')}</select>
+                <button onclick="assignTech(${order.id})">Asignar</button>
+            </div>
+            </div>
+
+            <hr style="border:none;height:1px;background:rgba(255,255,255,.03);margin:10px 0">
+
+            <div class="grid">
+            <div>
+                <label>Agregar repuesto</label>
+                <input id="partName" placeholder="Nombre repuesto" />
+                <input id="partPrice" placeholder="Precio USD" type="number" />
+                <button onclick="addPart(${order.id})">Agregar repuesto</button>
+            </div>
+            <div>
+                <label>Autorización escrita</label>
+                <input id="authText" placeholder="Firma o texto de autorización" />
+                <input id="authAmount" type="number" placeholder="Abono USD (mínimo 50%)" />
+                <button onclick="authorize(${order.id})">Autorizar</button>
+            </div>
+            </div>
+
+            <hr style="border:none;height:1px;background:rgba(255,255,255,.03);margin:10px 0">
+
+            <div>
+            <button onclick="startRepair(${order.id})">Iniciar reparación</button>
+            <button onclick="markWaiting(${order.id})">Marcar esperando repuestos</button>
+            <button onclick="completeOrder(${order.id})">Marcar completada</button>
+            </div>
+
+            <hr style="border:none;height:1px;background:rgba(255,255,255,.03);margin:10px 0">
+
+            <div><b>Historial</b></div>
+            <div>${order.history.map(h => `<div class="small muted">[${new Date(h.when).toLocaleString()}] — ${h.msg}</div>`).join('')}</div>
+        `;
+    }
+
+    function saveDiag(id){
+        try {
+            const order = registry.orders.find(o=>o.id===id);
+            const text = $('diagEdit').value.trim();
+            if(!text) return notify('El diagnóstico no puede quedar vacío');
+            order.setDiagnosis(text);
+            renderOrdersTable();
+            viewDetail(id);
+            notify('Diagnóstico guardado');
+        } catch(err){
+            notify(err.message);
+        }
+    }
+
+    function assignTech(id){
+        try {
+            const order = registry.orders.find(o=>o.id===id);
+            const select = $('techSelect');
+            if(!select) return notify('No hay técnicos');
+            const techId = Number(select.value);
+            const tech = registry.technicians.find(t=>t.id===techId);
+            if(!tech) return notify('Técnico inválido');
+            order.assignTechnician(tech);
+            renderOrdersTable();
+            viewDetail(id);
+            notify(`Técnico ${tech.name} asignado a orden #${id}`);
+        } catch(err){
+            notify(err.message);
+        }
+    }
+
+    function addPart(id){
+        try {
+            const order = registry.orders.find(o=>o.id===id);
+            const name = $('partName').value.trim();
+            const price = Number($('partPrice').value);
+            if(!name || !price) return notify('Nombre y precio del repuesto requeridos');
+            const part = new Part(name, price);
+            order.addPart(part);
+            renderOrdersTable();
+            viewDetail(id);
+            notify(`Repuesto ${name} agregado`);
+        } catch(err){
+            notify(err.message);
+        }
+    }
+
+    function authorize(id){
+        try {
+            const order = registry.orders.find(o=>o.id===id);
+            const text = $('authText').value.trim();
+            const amount = Number($('authAmount').value);
+            order.authorize(text, amount);
+            renderOrdersTable();
+            viewDetail(id);
+            notify('Orden autorizada');
+        } catch(err){
+            notify(err.message);
+        }
+    }
+
+    function startRepair(id){
+        try {
+            const order = registry.orders.find(o=>o.id===id);
+            order.startRepair();
+            renderOrdersTable();
+            viewDetail(id);
+            notify('Reparación iniciada');
+        } catch(err){ notify(err.message); }
+    }
+
+    function markWaiting(id){
+        try {
+            const order = registry.orders.find(o=>o.id===id);
+            order.markWaitingParts();
+            renderOrdersTable();
+            viewDetail(id);
+            notify('Orden marcada como esperando repuestos');
+        } catch(err){ notify(err.message); }
+    }
+
+    function completeOrder(id){
+        try {
+            const order = registry.orders.find(o=>o.id===id);
+            order.complete();
+            renderOrdersTable();
+            viewDetail(id);
+            notify('Orden completada');
+        } catch(err){ notify(err.message); }
+    }
+
+    function advance(id){
+        const order = registry.orders.find(o=>o.id===id);
+        if(!order) return;
+        try {
+            switch(order.status){
+                case 'RECEIVED':
+                    // If there's an initial diagnosis, move to DIAGNOSED
+                    if(order.initialDiagnosis) { order.status = 'DIAGNOSED'; order.history.push({when:new Date(),msg:'Estado: diagnosticado (avanzado manual)'}); }
+                    else order.history.push({when:new Date(),msg:'Intenta guardar diagnóstico antes de avanzar'});
+                    break;
+                case 'DIAGNOSED':
+                    // try to auto-authorize if paid >=50% and has auth text
+                    try {
+                    if(order.authorizationText && order.paid >= (order.totalCost()*0.5)) order.status = 'AUTHORIZED';
+                    else throw new Error('Requiere autorización escrita + abono 50%');
+                    } catch(e) { throw e; }
+                    break;
+                case 'AUTHORIZED':
+                    if(order.technician) order.status = 'REPAIRING';
+                    else throw new Error('Asigna un técnico antes de iniciar reparación');
+                    break;
+                case 'REPAIRING':
+                    order.status = 'COMPLETED';
+                    break;
+                case 'WAITING_PARTS':
+                    order.status = 'REPAIRING';
+                    break;
+                default:
+                    order.status = 'COMPLETED';
+            }
+            renderOrdersTable();
+            viewDetail(id);
+            notify('Estado actualizado a: ' + statusLabel(order.status));
+        } catch(err){ notify(err.message); }
+    }
+
+    function addTechnician(){
+        const name = $('techName').value.trim();
+        const skills = $('techSkills').value.split(',').map(s=>s.trim()).filter(Boolean);
+
+        if(!name || skills.length===0) return notify('Nombre y al menos 1 skill requeridos');
+        const tech = new Technician(name, skills);
+        registry.technicians.push(tech);
+        $('techName').value=''; $('techSkills').value='';
+        renderTechList();
+        notify(`Técnico ${tech.name} agregado`);
+    }
+
+    function seed(){
+        registry.technicians.push(new Technician('Carlos',['Samsung','Xiaomi']));
+        registry.technicians.push(new Technician('Lucía',['Apple']));
+        registry.technicians.push(new Technician('Pedro',['Motorola','Samsung']));
+        renderTechList();
+
+        const p = new Phone({brand:'Samsung',model:'A52',serial:'SN123',imei:'IMEI0001',owner:'Ana'});
+        const o = new RepairOrder(p,'Pantalla rota',120);
+        o.addPart(new Part('Pantalla',60));
+        registry.reportedSerials.add(p.serial);
+        registry.reportedImeis.add(p.imei);
+        registry.orders.push(o);
+        renderOrdersTable();
+    }
+
+    seed();
+
+    $('createBtn').addEventListener('click', createOrder);
+    $('addTech').addEventListener('click', addTechnician);
+
+    </script>
+</body>
+</html>

@@ -21,7 +21,7 @@ function IsCustomCheck(event) {
     }
 }
 
-$("#btnAgregar").click(async function () {
+$("#btnAgregar").click(async function () { 
 
     console.log("Agregar kit");
     const { value: formValues } = await Swal.fire({

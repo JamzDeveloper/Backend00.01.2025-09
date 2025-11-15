@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!--BootStrap Icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!--BootStrap-->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="mostrarFormulario()">
+
+    <div id="divCentral">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+            <div class="container">
+                <a class="navbar-brand col-md-1 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="crearSucursal">+</a>
+                <a class="navbar-brand col-md-2 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="verSucursales">Sucursales</a>
+                <a class="navbar-brand col-md-2 bg-success d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    >CENTRAL</a>
+                <a class="navbar-brand col-md-1 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="cerrarSesion">X</a>
+            </div>
+        </nav>
+        <table class="table table-striped table-hover table-bordered" id="tablaSucursal">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Sucursal</th>
+                    <th>Nombre</th>
+                    <th>Técnicos</th>
+                    <th>Clientes</th>
+                    <th>Tickets</th>
+                    <th>Celulares Reportados</th>
+                </tr>
+            </thead>
+            <tbody id="tablaSucursales"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+    </div>
+
+    <div id="divSucursal">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+            <div class="container">
+                <a class="navbar-brand col-md-1 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="crearTicket">+</a>
+                <a class="navbar-brand col-md-2 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="verTickets">Tickets</a>
+                <a class="navbar-brand col-md-1 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="crearTecnico">+</a>
+                <a class="navbar-brand col-md-2 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="verTecnicos">Técnicos</a>
+                <a class="navbar-brand col-md-1 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="crearCliente">+</a>
+                <a class="navbar-brand col-md-2 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="verClientes">Clientes</a>
+                <a class="navbar-brand col-md-2 bg-success d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="verUsuarioActual">Usuario</a>
+                <a class="navbar-brand col-md-1 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="cerrarSesionSucursal">X</a>
+            </div>
+        </nav>
+        <table class="table table-striped table-hover table-bordered" id="tablaTicket">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nro.Ticket</th>
+                    <th>Celular Revisado</th>
+                    <th>Cliente</th>
+                    <th>Técnico Responsable</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Cant. Anotaciones</th>
+                    <th>Cant. Cotizaciones</th>
+                    <th>Autorización de Cliente</th>
+                    <th>Fecha de Fin</th>
+                </tr>
+            </thead>
+            <tbody id="tablaTickets"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+        <table class="table table-striped table-hover table-bordered" id="tablaTecnico">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id. Técnico</th>
+                    <th>Nombre de Técnico</th>
+                    <th>Habilidades de Técnico</th>
+                    <th>Tareas de Técnico</th>                    
+                </tr>
+            </thead>
+            <tbody id="tablaTecnicos"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+        <table class="table table-striped table-hover table-bordered" id="tablaCliente">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Cliente</th>
+                    <th>Nombre de Cliente</th>
+                    <th>Celulares</th>                    
+                </tr>
+            </thead>
+            <tbody id="tablaClientes"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+    </div>
+
+    <div id="divCliente">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+            <div class="container">
+                <a class="navbar-brand col-md-2 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="crearCelular">+ Celular</a>
+                <a class="navbar-brand col-md-2 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="autorizarAtencion">Autorizar Atención</a>
+                <a class="navbar-brand col-md-2 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="pagarCotizacion">Pagar Cotización</a>
+                <a class="navbar-brand col-md-3 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    >Pedir atención: 0800-795</a>
+                <a class="navbar-brand col-md-2 bg-success d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="verUsuarioActualCliente">Usuario</a>
+                <a class="navbar-brand col-md-1 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="cerrarSesionCliente">X</a>
+            </div>
+        </nav>
+        <table class="table table-striped table-hover table-bordered" id="tablaCelular">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nro.Serie Celular</th>
+                    <th>IMEI de Celular</th>
+                    <th>Marca de Celular</th>
+                    <th>Estado Actual</th>
+                    <th>¿Reportado?</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCelulares"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+        <table class="table table-striped table-hover table-bordered" id="tablaTicketCliente">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nro.Ticket</th>
+                    <th>Celular Revisado</th>
+                    <th>Cliente</th>
+                    <th>Técnico Responsable</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Cant. Anotaciones</th>
+                    <th>Cant. Cotizaciones</th>
+                    <th>Autorización de Cliente</th>
+                    <th>Fecha de Fin</th>                    
+                </tr>
+            </thead>
+            <tbody id="tablaTicketClientes"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+        <table class="table table-striped table-hover table-bordered" id="tablaCotizacionesCliente">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Cotización</th>
+                    <th>Concepto de Cotización</th>
+                    <th>Monto</th>
+                    <th>Cliente asignado</th>
+                    <th>Técnico creador</th>
+                    <th>F. Creación</th>
+                    <th>Estado de Pago</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCotizacionesClientes"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+    </div>
+
+    <div id="divTecnico">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+            <div class="container-fluid">
+                <a class="navbar-brand col-md-2 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="crearHabilidad">+ Habilidad</a>                
+                <a class="navbar-brand col-md-2 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="crearCotizacion">+ Cotización</a>                
+                <a class="navbar-brand col-md-2 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="declararEstadoCelular">Estado Celular</a>
+                <a class="navbar-brand col-md-1 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="atenderTicket">Actualizar Ticket</a>
+                <a class="navbar-brand col-md-1 bg-primary d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="cerrarTicket">Finalizar Ticket</a>
+                <a class="navbar-brand col-md-1 bg-success d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="verUsuarioActualTecnico">Usuario</a>
+                <a class="navbar-brand col-md-1 bg-danger d-flex justify-content-center text-white fw-bold border border-dark" href="#" 
+                    id="cerrarSesionTecnico">X</a>
+            </div>
+        </nav>
+        <table class="table table-striped table-hover table-bordered" id="tablaHabilidad">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre de Habilidad</th>
+                    <th>Años de Experiencia</th>              
+                </tr>
+            </thead>
+            <tbody id="tablaHabilidades"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+        <table class="table table-striped table-hover table-bordered" id="tablaTicketsTecnico">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nro.Ticket</th>
+                    <th>Celular Revisado</th>
+                    <th>Cliente</th>
+                    <th>Técnico Responsable</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Cant. Anotaciones</th>
+                    <th>Cant. Cotizaciones</th>
+                    <th>Autorización de Cliente</th>
+                    <th>Fecha de Fin</th>                    
+                </tr>
+            </thead>
+            <tbody id="tablaTicketsTecnicos"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+        <table class="table table-striped table-hover table-bordered" id="tablaCotizacionesTecnico">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Cotización</th>
+                    <th>Concepto de Cotización</th>
+                    <th>Monto</th>
+                    <th>Cliente asignado</th>
+                    <th>Técnico creador</th>
+                    <th>F. Creación</th>
+                    <th>Estado de Pago</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCotizacionesTecnicos"> <!-- Las filas se agregarán aquí con JavaScript --> </tbody>
+        </table>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!--Sweet Alert-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+
+    <script src="./lib/classes.js"></script>
+    <script src="./lib/db.js"></script>
+    
+    <script src="script.js"></script>
+    
+</body>
+
+</html>

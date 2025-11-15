@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Servicio Técnico</h1>
+    
+   
+
+    <!--  IMEI tiene robo? -->
+    <section class="seccion-imei">
+        <label for="campo-imei"><strong>Ingrese el IMEI del teléfono:</strong></label><br>
+        <input type="text" id="campo-imei" placeholder="Ejemplo: 35678912" required>
+        <br><button id="btnVerificar">Ingresar IMEI</button>
+    </section>
+
+
+
+    <!-- Diagnostico -->
+    <section >
+        <div id="formulario-cuadro" class="oculto">
+        <h3>Informe Del Diagnostico</h3>
+        <form id="formRevision">
+            <label for="sistema">Android o iOS:</label>
+            <input type="text" id="sistema" required>
+
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca" required>
+
+            <label for="modelo">Modelo:</label>
+            <input type="text" id="modelo" required>
+
+            <label for="diagnostico">Diagnóstico inicial:</label>
+            <textarea id="diagnostico" rows="3" required></textarea>
+
+            <button id="diagnosticoGuardado" type="submit">Guardar</button>
+        </form>
+        </div>
+                
+    </section>
+
+    <!-- Confirmacion de Servicio -->
+    <section>
+        <div id="formulario-confirmacion" class="oculto">
+            <h3>Confirmación del Servicio</h3>
+            <p id="tecnico"></p>
+            <p><strong>Debe abonar el 50% para proceder con la reparación.</strong></p>
+            <button id="btnConfirmarPago">Confirmar pago</button>
+        </div>
+    </section>
+
+    <!-- Estado del equipo -->
+    <section id="estado-equipo">
+        <h3>Estado del equipo:</h3>
+        <p id="estadoActual">Esperando verificación de IMEI...</p>
+    </section>
+
+    <!-- Repuestos -->
+    <section id="repuestos" class="oculto">
+        <h3>Repuestos y Diagnóstico</h3>
+        <p><strong>Diagnóstico inicial:</strong> <span id="diagnosticoGuardadoTexto"></span></p>
+    </section>
+    <!-- Historial de diagnósticos -->
+    <section id="historial">
+        <h3>Historial de diagnósticos:</h3>
+    </section>
+
+<script src="main.js"></script>
+</body>
+</html>

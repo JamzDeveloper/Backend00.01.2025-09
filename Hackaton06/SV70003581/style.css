@@ -1,0 +1,14 @@
+body {
+  background-image: url('https://raw.githubusercontent.com/Carlos-Eduardo-17/TemporalHackatons/refs/heads/main/Fondo_login.png');
+  background-size: cover;
+  background-position: top;  
+  background-repeat: no-repeat;
+}
+
+#divCentral, #divSucursal, #divCliente, #divTecnico{
+  display: none;
+  background-color: azure;
+  scale: 98%;
+  margin-top: 1%;  
+}
+

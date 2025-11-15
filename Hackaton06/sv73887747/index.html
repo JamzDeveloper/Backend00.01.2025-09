@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackaton 06</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="jumbotron">
+                    <h1 id="sucursal"></h1>
+                    <button id="btnIniciar">Iniciar Reparacion</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="detalles" style="display:none; margin-top:20px;">
+                <h2>Detalles de la Reparacion</h2>
+                <p><strong>Cliente:</strong><span id="cliente"></span></p>
+                <p><strong>Telefono:</strong><span id="telefono"></span></p>
+                <p><strong>Diagnostico:</strong><span id="diagnostico"></span></p>
+                <p><strong>Abono:</strong><span id="abono"></span></p>
+                <p><strong>Tecnico:</strong><span id="tecnico"></span></p>
+                <p><strong>Repuestos:</strong><span id="repuestos"></span></p>
+                <p><strong>Estado:</strong><span id="estado"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        ReparacionCelular.init({sucursal:"Idat - Lima Norte"});
+    </script>
+</body>
+</html>

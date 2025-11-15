@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack 4 - Felices ledesma</title>
+
+    <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #0d1117;
+        color: #e6edf3;
+        padding: 20px;
+    }
+    h1, h2 {
+        text-align: center;
+        color: #58a6ff;
+    }
+    section {
+        background: #161b22;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 700px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    button {
+        background: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 8px 0;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    button:hover {
+        background: #2ea043;
+    }
+    input {
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #30363d;
+        margin: 5px;
+        background: #0d1117;
+        color: #e6edf3;
+    }
+    .output {
+        background: #1c2128;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        font-family: monospace;
+    }
+    </style>
+</head>
+<body>
+    <h2>Funciones y Algoritmos</h2>
+
+    <section id="ej1">
+        <h3>1️⃣ Suma de dos números</h3>
+        <input type="number" id="sum1" placeholder="Número 1">
+        <input type="number" id="sum2" placeholder="Número 2">
+        <button onclick="ej1()">Calcular</button>
+        <div class="output" id="out1"></div>
+    </section>
+
+    <section id="ej2">
+        <h3>2️⃣ Potencia de un número</h3>
+        <input type="number" id="base" placeholder="Base">
+        <input type="number" id="exp" placeholder="Exponente">
+        <button onclick="ej2()">Calcular</button>
+        <div class="output" id="out2"></div>
+    </section>
+
+    <section id="ej3">
+        <h3>3️⃣ Suma de cubos</h3>
+        <input type="text" id="cubes" placeholder="Ej: 1, 5, 9">
+        <button onclick="ej3()">Calcular</button>
+        <div class="output" id="out3"></div>
+    </section>
+
+    <section id="ej4">
+        <h3>4️⃣ Área de triángulo</h3>
+        <input type="number" id="baseT" placeholder="Base">
+        <input type="number" id="alturaT" placeholder="Altura">
+        <button onclick="ej4()">Calcular</button>
+        <div class="output" id="out4"></div>
+    </section>
+
+    <section id="ej5">
+        <h3>5️⃣ Calculadora básica</h3>
+        <input type="number" id="numA" placeholder="Número 1">
+        <input type="text" id="oper" placeholder="Operación (+, -, x, /, %)" maxlength="1">
+        <input type="number" id="numB" placeholder="Número 2">
+        <button onclick="ej5()">Calcular</button>
+        <div class="output" id="out5"></div>
+    </section>
+
+    <section id="preguntas">
+        <h3>📘 Preguntas</h3>
+        <p><b>¿Cómo defines una función?</b></p>
+        <p>Una función se define usando la palabra clave <code>function</code> o con funciones de flecha.</p>
+        <br><br>
+        <p><b>¿Hasta cuántos argumentos puedes declarar en una función?</b></p>
+        <p>No hay un límite estricto, pero lo recomendable es no usar más de 4 o 5.  
+        En ES6 se puede usar el parámetro rest <code>(...args)</code> para aceptar un número variable de argumentos.</p>
+    </section>
+
+    <script>
+        // --- Suma de dos números ---
+        const ej1 = () => {
+        const a = +document.getElementById("sum1").value;
+        const b = +document.getElementById("sum2").value;
+        const suma = (x, y) => x + y;
+        document.getElementById("out1").textContent = `Resultado: ${suma(a, b)}`;
+        };
+
+        // --- 2. Potencia de un número ---
+        const ej2 = () => {
+        const base = +document.getElementById("base").value;
+        const exp = +document.getElementById("exp").value;
+        const potencia = (b, e) => b ** e; // Uso de operador exponencial ES6
+        document.getElementById("out2").textContent = `Resultado: ${potencia(base, exp)}`;
+        };
+
+        // --- 3. Suma de cubos ---
+        const ej3 = () => {
+        const nums = document.getElementById("cubes").value.split(',').map(Number);
+        const sumOfCubes = (...arr) => arr.reduce((acc, n) => acc + n ** 3, 0);
+        document.getElementById("out3").textContent = `Resultado: ${sumOfCubes(...nums)}`;
+        };
+
+        // --- 4. Área de triángulo ---
+        const ej4 = () => {
+        const base = +document.getElementById("baseT").value;
+        const altura = +document.getElementById("alturaT").value;
+        const triArea = (b, h) => (b * h) / 2;
+        document.getElementById("out4").textContent = `Área: ${triArea(base, altura)}`;
+        };
+
+        // --- 5. Calculadora básica ---
+        const ej5 = () => {
+        const a = +document.getElementById("numA").value;
+        const op = document.getElementById("oper").value.trim();
+        const b = +document.getElementById("numB").value;
+
+        const calculator = (n1, operacion, n2) => {
+            switch (operacion) {
+            case '+': return n1 + n2;
+            case '-': return n1 - n2;
+            case 'x': return n1 * n2;
+            case '*': return n1 * n2;
+            case '/': return n2 !== 0 ? n1 / n2 : 'Error: división por 0';
+            case '%': return n1 % n2;
+            default: return 'El parámetro no es reconocido';
+            }
+        };
+        document.getElementById("out5").textContent = `Resultado: ${calculator(a, op, b)}`;
+        };
+    </script>
+
+</body>
+</html>

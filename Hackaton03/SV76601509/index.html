@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack 3 - Felices Ledesma</title>
+
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #121212; 
+            color: #eee; 
+            padding: 30px; 
+        }
+
+        h1 { 
+            text-align: center; 
+            color: #00e676; 
+        }
+
+        select, input, button { 
+            margin: 10px 0; 
+            padding: 8px; 
+            font-size: 1rem; 
+            border-radius: 5px; 
+        }
+
+        select, input { 
+            width: 100%; 
+            max-width: 400px; 
+        }
+
+        button { 
+            background: #00e676; 
+            border: none; 
+            cursor: pointer; 
+        }
+
+        button:hover { 
+            background: #00c853; 
+        }
+
+    #output { 
+        background: #1e1e1e; 
+        padding: 15px; 
+        border-radius: 8px; 
+        margin-top: 20px; 
+        white-space: pre-line; 
+        }
+</style>
+</head>
+<body>
+    <Select id="exercise">
+        <option value="1">1. Determinar si un numero tiene tres digitos </option>
+        <option value="2">2. Determinar si un numero es negativo </option>
+        <option value="3">3. Determinar si un numero termina en 4</option>
+        <option value="4">4. Mostrar tres numero de menor a mayor </option>
+        <option value="5">5. Descuento por cantidad de zapatos </option>   
+    </Select>
+
+    <div id="inputFields"></div>
+    <button onclick="runExercise()">Ejecutar</button>
+
+    <div id="output"></div>
+
+    <script>
+        function runExercise() {
+            const ex = document.getElementById('exercise').value;
+            let result = '';
+
+            switch (parseInt(ex)) {
+                case 1:
+                    const num1 = parseInt(prompt('Ingrese un número:'));
+                    result = (num1 >= 100 && num1 <= 999) || (num1 <= -100 && num1 >= -999)
+                        ? 'Tiene tres dígitos.'
+                        : 'No tiene tres dígitos.';
+                    break;
+
+                case 2:
+                    const num2 = parseInt(prompt('Ingrese un número:'));
+                    result = num2 < 0 ? 'El número es negativo.' : 'El número no es negativo.';
+                    break;
+
+                case 3:
+                    const num3 = parseInt(prompt('Ingrese un número:'));
+                    result = num3 % 10 === 4 ? 'Termina en 4.' : 'No termina en 4.';
+                    break;
+
+                case 4:
+                    const a = parseInt(prompt('Ingrese el primer número:'));
+                    const b = parseInt(prompt('Ingrese el segundo número:'));
+                    const c = parseInt(prompt('Ingrese el tercer número:'));
+                    const ordenados = [a, b, c].sort((x, y) => x - y);
+                    result = `Ordenados: ${ordenados.join(', ')}`;
+                    break;
+
+                case 5:
+                    const cantidad = parseInt(prompt('Ingrese cantidad de zapatos:'));
+                    const precio = 80;
+                    let descuento = 0;
+                    if (cantidad > 30) descuento = 0.4;
+                    else if (cantidad > 20) descuento = 0.2;
+                    else if (cantidad > 10) descuento = 0.1;
+
+                    const total = cantidad * precio * (1 - descuento);
+                    result = `Total a pagar: $${total.toFixed(2)} (Descuento: ${(descuento * 100)}%)`;
+                    break;
+
+                default:
+                result = 'Ejercicio no implementado todavía.';
+            }
+
+    document.getElementById('output').innerText = result;
+}
+</script>   
+</body>
+</html>
