@@ -1,7 +1,44 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
 const { User, Op } = require("../models");
 
 const router = express.Router();
+
+router.post("/", async (req, res) => {
+  try {
+    const { firstName, lastName, email, password, role } = req.body;
+
+    if (!firstName || !email) {
+      return res.status(400).json({
+        error: "El nombre y el correo son obligatorios",
+      });
+    }
+    if (!password) {
+      return res.status(400).json({
+        error: "La contraseña es obligatoria",
+      });
+    }
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      passwordHash,
+      role: role || "student",
+    });
+    const userResponse = user.toJSON();
+    delete userResponse.passwordHash;
+    res.status(201).json({
+      message: "Usuario creado correctamente",
+      data: userResponse,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Error al crear el usuario",
+      error: err.message,
+    });
+  }
+});
 
 router.get("/", async (req, res) => {
   try {
