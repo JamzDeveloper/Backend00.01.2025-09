@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const sequelize = require("./db");
-
+const userRoutes = require("./routes/users.routes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -16,6 +16,10 @@ app.get("/", (req, res) => {
     endpoints: {},
   });
 });
+
+//Rutas de servicios
+
+app.use("/users", userRoutes);
 
 async function startServer() {
   try {
