@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hackaton05 - Sistema de Reparaciones</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <div class="max-w-5xl mx-auto py-8">
+    <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">
+      📱 Sistema de Reparaciones de Celulares
+    </h1>
+
+    <!-- Sección de Formularios -->
+    <div class="grid md:grid-cols-3 gap-4 mb-8">
+      <!-- Clientes -->
+      <div class="bg-white p-4 shadow rounded-xl">
+        <h2 class="font-semibold mb-3 text-lg text-blue-700">Registrar Cliente</h2>
+        <form id="formCliente" class="space-y-3">
+          <input type="text" id="nombreCliente" placeholder="Nombre" class="w-full border p-2 rounded">
+          <input type="text" id="telefonoCliente" placeholder="Teléfono" class="w-full border p-2 rounded">
+          <input type="number" id="abonoCliente" placeholder="Abono (S/)" class="w-full border p-2 rounded">
+          <label class="flex items-center gap-2 text-sm">
+            <input type="checkbox" id="autorizacionCliente">
+            <span>Autorización escrita</span>
+          </label>
+          <button class="bg-blue-600 text-white w-full py-2 rounded">Guardar Cliente</button>
+        </form>
+      </div>
+
+      <!-- Técnicos -->
+      <div class="bg-white p-4 shadow rounded-xl">
+        <h2 class="font-semibold mb-3 text-lg text-green-700">Registrar Técnico</h2>
+        <form id="formTecnico" class="space-y-3">
+          <input type="text" id="nombreTecnico" placeholder="Nombre" class="w-full border p-2 rounded">
+          <input type="text" id="telefonoTecnico" placeholder="Teléfono" class="w-full border p-2 rounded">
+          <input type="text" id="skillsTecnico" placeholder="Skills (ej. SAMSUNG,APPLE)" class="w-full border p-2 rounded">
+          <button class="bg-green-600 text-white w-full py-2 rounded">Guardar Técnico</button>
+        </form>
+      </div>
+
+      <!-- Reparaciones -->
+      <div class="bg-white p-4 shadow rounded-xl">
+        <h2 class="font-semibold mb-3 text-lg text-orange-700">Registrar Reparación</h2>
+        <form id="formReparacion" class="space-y-3">
+          <input type="text" id="marca" placeholder="Marca (ej. APPLE)" class="w-full border p-2 rounded">
+          <input type="text" id="modelo" placeholder="Modelo" class="w-full border p-2 rounded">
+          <input type="text" id="imei" placeholder="IMEI" class="w-full border p-2 rounded">
+          <input type="text" id="serie" placeholder="N° Serie" class="w-full border p-2 rounded">
+          <input type="text" id="diagnostico" placeholder="Diagnóstico inicial" class="w-full border p-2 rounded">
+          <input type="number" id="costo" placeholder="Costo estimado (S/)" class="w-full border p-2 rounded">
+          <button class="bg-orange-600 text-white w-full py-2 rounded">Registrar Reparación</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Listados -->
+    <div class="bg-white p-5 rounded-xl shadow mb-6">
+      <h2 class="text-xl font-semibold mb-3">📋 Listado General</h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <h3 class="font-bold text-gray-700">Clientes:</h3>
+          <ul id="listaClientes" class="list-disc pl-5 text-sm"></ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-gray-700">Técnicos:</h3>
+          <ul id="listaTecnicos" class="list-disc pl-5 text-sm"></ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-gray-700">Reparaciones:</h3>
+          <ul id="listaReparaciones" class="list-disc pl-5 text-sm"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

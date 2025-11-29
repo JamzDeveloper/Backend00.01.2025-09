@@ -1,13 +1,6 @@
 
-
-function abrirForm() {
-  $("#btnAbrirform").on("click", function () {
-    $("#divIngreso").show()
-  })
-}
-
-abrirForm()
-
+// const dblocal = new DB();
+// const dbsession = new sessionDB();
 
 
 
@@ -21,9 +14,42 @@ class Celular {
     this.primeraInspeccion = primeraInspeccion
   }
 }
+
+
+// crear un objeto que reciba los datos del formulario cuando se presione el boton de guardar y llevarlo a la clase celular
+
+const formData = {};
+
+$("#btnEnviaringreso").on("click", function (e) {
+  e.preventDefault();
+
+  formData.propietario = $("#nombrePropietario").val();
+  formData.numero = $("#numeroTelefono").val();
+  formData.imei = $("#imei").val();
+  formData.marca = $("#marca").val();
+  formData.modelo = $("#modelo").val();
+  formData.primeraInspeccion = $("#primeraInspeccion").val();
+
+  const nuevoCelular = new Celular(
+    formData.propietario,
+    formData.numero,
+    formData.imei,
+    formData.marca,
+    formData.modelo,
+    formData.primeraInspeccion
+  );
+
+  console.log(nuevoCelular);
+
+  dblocal.saveData("nuevoCelular", nuevoCelular);
+  dbweb.saveData("nuevoCelular", nuevoCelular);
+});
+
+ 
+
+
 const formIngreso = (function () {
   let ingreso, salida;
-
 
   function eventos() {
     $("#btnEnviaringreso").on("click", function (e) {
@@ -40,15 +66,15 @@ const formIngreso = (function () {
     const imei = $("#imei").val();
     const primeraInspeccion = $("#primeraInspeccion").val();
     const checkUser = $("#checkUser").val();
- $("#formStatus").show();
+    $("#formStatus").show();
 
-    $("#nombrePropietario2").val(nombrePropietario) 
+    $("#nombrePropietario2").val(nombrePropietario)
     $("#numeroTelefono2").val(numeroTelefono);
     $("#marca2").val(marca);
     $("#imei2").val(imei);
     $("#primeraInspeccion2").val(primeraInspeccion);
 
-       $("#nombrePropietario3").val(nombrePropietario) 
+    $("#nombrePropietario3").val(nombrePropietario)
     $("#numeroTelefono3").val(numeroTelefono);
     $("#marca3").val(marca);
     $("#imei3").val(imei);
@@ -59,8 +85,11 @@ const formIngreso = (function () {
     const tecnico = new Celular(nombrePropietario, numeroTelefono, imei, marca, primeraInspeccion);
     const cliente = new Celular(nombrePropietario, numeroTelefono, imei, marca, primeraInspeccion);
 
-    vendedor.nombrePropietario= nombrePropietario
-    cliente.nombrePropietario  = tecnico.nombrePropietario = vendedor.nombrePropietario
+    vendedor.nombrePropietario = nombrePropietario
+    cliente.nombrePropietario = tecnico.nombrePropietario = vendedor.nombrePropietario
+
+    console.log(cliente.nombrePropietario)
+    
 
   }
 
@@ -70,3 +99,27 @@ const formIngreso = (function () {
 
 
 
+ const arraySucursales = [];
+// crea un array de ciudades y las agrega como opciones a un select de sucursales
+$("#agregarBtn").on("click", (e)=>{
+  e.preventDefault();
+  const opciones = $("#sucursal").val();
+  const nuevaOpcion = document.createElement("option");
+  nuevaOpcion.value = opciones;
+  nuevaOpcion.textContent = opciones;
+  $("#sucursal2").append(nuevaOpcion);
+
+
+  const nuevaSucursal = new Sucursal(opciones);
+   arraySucursales.push(nuevaSucursal);
+  console.log(arraySucursales);
+})
+
+
+function abrirForm() {
+  $("#btnAbrirform").on("click", function () {
+    $("#divIngreso").show()
+  })
+}
+
+abrirForm()

@@ -1,0 +1,61 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        title Usuario aleatorio
+        link(rel="stylesheet", href="/styles.css")
+    body
+        h1 Usuario aleatorio
+
+        p
+            a(href="/") ← Volver al inicio
+
+        if error
+            p.error= error
+        else if user
+            .user-card
+                if user.picture && user.picture.large
+                    img(src=user.picture.large alt="Foto de usuario")
+
+                if user.name
+                    h2 #{user.name.title} #{user.name.first} #{user.name.last}
+
+                if user.dob && user.dob.age
+                    p
+                        strong Edad:
+                        |  #{user.dob.age} años
+
+                if user.email
+                    p
+                        strong Correo:
+                        |  #{user.email}
+
+                if user.phone
+                    p
+                        strong Teléfono:
+                        |  #{user.phone}
+
+                if user.cell
+                    p
+                        strong Celular:
+                        |  #{user.cell}
+
+                if user.location
+                    p
+                        strong Ubicación:
+                        |  #{user.location.city}, #{user.location.state}, #{user.location.country}
+
+                if user.login && user.login.username
+                    p
+                        strong Username:
+                        |  #{user.login.username}
+
+        else
+            p No se encontró ningún usuario.
+
+        hr
+        if user
+            details
+                summary Ver JSON completo del usuario
+                pre
+                    = JSON.stringify(user, null, 2)

@@ -1,0 +1,64 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        title Fotos - Unsplash
+        link(rel="stylesheet", href="/styles.css")
+    body
+        h1 Buscar fotos en Unsplash
+
+        p
+            a(href="/") ← Volver al inicio
+
+        form(action="/fotos" method="get")
+            label(for="q") Tema:
+            input(
+                type="text"
+                id="q"
+                name="q"
+                placeholder="gatos"
+                required
+                value=query || ""
+            )
+            button(type="submit") Buscar fotos
+
+        if error
+            p.error= error
+        else if data && data.results && data.results.length
+            p
+                | Mostrando 
+                strong= data.results.length
+                |  fotos de un total de 
+                strong= data.total
+
+            .photos-grid
+                each photo in data.results
+                    .photo-card
+                        if photo.urls && photo.urls.small
+                            img(src=photo.urls.small alt=(photo.alt_description || photo.description || 'Foto'))
+
+                        if photo.description
+                            p
+                                strong Descripción:
+                                |  #{photo.description}
+                        else if photo.alt_description
+                            p
+                                strong Descripción:
+                                |  #{photo.alt_description}
+
+                        if photo.user && photo.user.name
+                            p
+                                strong Autor:
+                                |  #{photo.user.name}
+
+                        if photo.links && photo.links.html
+                            p
+                                a(href=photo.links.html target="_blank") Ver en Unsplash
+        else
+            p No se encontraron fotos para este tema.
+
+        hr
+        if data
+            details
+                summary Ver JSON completo de la respuesta
+                pre= JSON.stringify(data, null, 2)

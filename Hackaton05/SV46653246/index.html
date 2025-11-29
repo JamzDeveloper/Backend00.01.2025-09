@@ -18,17 +18,30 @@
         <h2>Tienda de Reparación de celulares</h2>
     </div>
 
+
+    <div>
+        <input type="text" id="sucursal" placeholder="Sucursal" select />
+        <button id="agregarBtn" class="container-add-sucursal-button">agregar</button>
+        <select id="sucursal2" class="container-add-sucursal-input" type="text" placeholder="Sucursal" select></select>
+    </div>
     <div class="mb-3">
         <h2>Registrar nuevo celular</h2>
         <button type="submit" class="btn btn-primary" id="btnAbrirform">Click para registrar</button>
     </div>
-
     <div id="divIngreso">
         <div class=" container justify-content-left m-0 p-0">
             <div class="container col col-lg-6 col-md-6">
                 <h2 class="mb-4">Form de ingreso</h2>
 
                 <form id="formRegistro">
+                    <div class="input-group mb-3">
+                        <label for="Numero de serie" class="form-label">Número de serie</label>
+                        <textarea class="form-control" id="numeroSerie" rows="1"></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="IMEI" class="form-label">IMEI</label>
+                        <textarea class="form-control" id="imei" rows="1"></textarea>
+                    </div>
                     <div class="input-group mb-3">
                         <label for="Nombre propietario" class="form-label">Nombre propietario</label>
                         <textarea class="form-control" id="nombrePropietario" rows="1"></textarea>
@@ -74,7 +87,7 @@
 
 
 
-    <div id="formStatus">
+    <!-- <div id="formStatus">
         <div class=" container justify-content-left m-0 p-0">
             <div class="container col col-lg-6 col-md-6">
                 <h2 class="mb-4">Form de estado</h2>
@@ -90,7 +103,7 @@
                     </div>
 
                     <div class="input-group mb-3">
-                           <label class="input-group-text" for="inputGroupSelect01" disabled>Marca</label>
+                        <label class="input-group-text" for="inputGroupSelect01" disabled>Marca</label>
                         <textarea class="form-control" id="marca2" rows="1" disabled></textarea>
                     </div>
 
@@ -110,12 +123,12 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 
 
-    <div id="formCliente">
+    <!-- <div id="formCliente">
         <div class=" container justify-content-left m-0 p-0">
             <div class="container col col-lg-6 col-md-6">
                 <h2 class="mb-4">Form de Cliente</h2>
@@ -148,11 +161,11 @@
                         <label for="primeraInspeccion" class="form-label">Repuestos usados</label>
                         <textarea class="form-control" id="primeraInspeccion3" rows="3" disabled></textarea>
                     </div>
-     
+
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 
@@ -171,6 +184,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.25.0/dist/bootstrap-table.min.js"></script>
 
     <script src="script.js"></script>
+    <script src="clases.js"></script>
+    <script src="db.js"></script>
 
 </body>
 

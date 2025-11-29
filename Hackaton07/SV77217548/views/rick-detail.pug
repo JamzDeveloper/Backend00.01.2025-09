@@ -1,0 +1,65 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Detalle personaje - Rick and Morty
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1 Detalle del personaje - Rick and Morty
+
+    p
+      a(href="/") ← Volver al inicio
+      |  | 
+      a(href="/rick") Volver a la lista
+
+    if error
+      p.error= error
+    else if character
+      if character.image
+        img(src=character.image alt=character.name)
+
+      h2= character.name
+
+      p
+        strong ID:
+        |  #{character.id}
+
+      p
+        strong Estado:
+        |  #{character.status}
+
+      p
+        strong Especie:
+        |  #{character.species}
+
+      if character.type
+        p
+          strong Tipo:
+          |  #{character.type}
+
+      p
+        strong Género:
+        |  #{character.gender}
+
+      if character.origin && character.origin.name
+        p
+          strong Origen:
+          |  #{character.origin.name}
+
+      if character.location && character.location.name
+        p
+          strong Ubicación actual:
+          |  #{character.location.name}
+
+      if character.episode && character.episode.length
+        p
+          strong Número de episodios:
+          |  #{character.episode.length}
+
+      hr
+      details
+        summary Ver JSON completo del personaje
+        pre
+          = JSON.stringify(character, null, 2)
+    else
+      p No hay datos del personaje.

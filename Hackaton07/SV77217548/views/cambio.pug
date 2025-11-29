@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Tipo de cambio
+    link(rel="stylesheet", href="/styles.css")
+  body
+    a(href="/") ← Volver
+    h1 Tipo de cambio desde #{base}
+
+    form(action="/cambio" method="get")
+      label(for="to") Moneda destino:
+      input(type="text" id="to" name="to" placeholder="PEN" maxlength="3" value=to)
+      label(for="amount") Monto en #{base}:
+      input(type="number" id="amount" name="amount" value=amount min="1" step="0.01")
+      button(type="submit") Convertir
+
+    if error
+      p(style="color:red")= error
+    else if rate
+      p Última actualización: #{date}
+      p 1 #{base} = #{rate} #{to}
+      p #{amount} #{base} = #{converted} #{to}
+
+      hr
+      details
+        summary Ver JSON completo
+        pre= JSON.stringify(raw, null, 2)
+    else
+      p No hay datos disponibles.

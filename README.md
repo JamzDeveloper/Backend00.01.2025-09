@@ -12,7 +12,7 @@ git fetch fuentes
 git merge fuentes/main main
 
 
-
+npm i
 
 ## Docente
 ### Roberto Pineda d19423

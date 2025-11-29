@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Frase del día
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1 Frase del día
+
+    p
+      a(href="/") ← Volver al inicio
+
+    if error
+      p.error= error
+    else if quote
+      blockquote
+        p= quote.quote
+      p
+        strong Autor:
+        |  #{quote.author || 'Desconocido'}
+
+      if quote.work
+        p
+          strong Obra:
+          |  #{quote.work}
+
+      if quote.categories && quote.categories.length
+        p
+          strong Categorías:
+          |  #{quote.categories.join(', ')}
+
+    else
+      p No se encontró ninguna frase.
+
+    hr
+
+    if raw
+      details
+        summary Ver JSON completo de la respuesta
+        pre
+          = JSON.stringify(raw, null, 2)

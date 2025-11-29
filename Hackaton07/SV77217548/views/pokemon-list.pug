@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Lista de Pokemones
+    link(rel="stylesheet", href="/styles.css")
+  body
+    a(href="/") ← Volver
+    h1 Lista de Pokemones
+
+    form(action="/pokemones" method="get")
+      label(for="limit") Cantidad (o escribe "todos"):
+      input(type="text" id="limit" name="limit" placeholder="todos")
+      button(type="submit") Ver lista
+
+    if error
+      p(style="color:red")= error
+    else if list
+      p Total recibido: #{list.results.length} pokemones
+      ul
+        each item in list.results
+          li= item.name
+
+      hr
+      details
+        summary Ver JSON completo
+        pre= JSON.stringify(list, null, 2)
+    else
+      p No hay datos para mostrar.

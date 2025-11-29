@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Pokémon
+    link(rel="stylesheet", href="/styles.css")
+  body
+    a(href="/") ← Volver
+    h1 Buscar Pokémon
+
+    form(action="/pokemon" method="get")
+      label(for="name") Nombre:
+      input(type="text" id="name" name="name" placeholder="pikachu" required)
+      button(type="submit") Buscar
+
+    if error
+      p(style="color:red")= error
+    else if pokemon
+      h2= pokemon.name
+      if pokemon.sprites && pokemon.sprites.front_default
+        img(src=pokemon.sprites.front_default, alt=pokemon.name, width="150")
+
+      h3 Poderes / Habilidades
+      ul
+        each ability in abilities
+          li= ability
+
+      hr
+      details
+        summary Ver JSON completo
+        pre= JSON.stringify(pokemon, null, 2)
+    else
+      p Ingresa un nombre de Pokémon para buscar.

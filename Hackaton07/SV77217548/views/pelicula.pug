@@ -1,0 +1,65 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Detalle de película
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1 Detalle de película
+
+    p
+      a(href="/") ← Volver al inicio
+      |  | 
+      a(href="/peliculas") Ver top de películas
+
+    if error
+      p.error= error
+    else if movie
+      h2= movie.title
+
+      if movie.poster_path
+        img(
+          src=`https://image.tmdb.org/t/p/w300${movie.poster_path}`
+          alt=movie.title
+        )
+
+      if movie.tagline
+        p
+          em= movie.tagline
+
+      if movie.release_date
+        p
+          strong Fecha de estreno:
+          |  #{movie.release_date}
+
+      if typeof movie.vote_average !== 'undefined'
+        p
+          strong Puntuación:
+          |  #{movie.vote_average} / 10
+
+      if movie.runtime
+        p
+          strong Duración:
+          |  #{movie.runtime} min
+
+      if movie.original_language
+        p
+          strong Idioma original:
+          |  #{movie.original_language}
+
+      if movie.genres && movie.genres.length
+        p
+          strong Géneros:
+          |  #{movie.genres.map(g => g.name).join(', ')}
+
+      if movie.overview
+        h3 Sinopsis
+        p= movie.overview
+
+      hr
+      details
+        summary Ver JSON completo de la película
+        pre
+          = JSON.stringify(movie, null, 2)
+    else
+      p No hay datos de la película.

@@ -1,0 +1,98 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        title Hackaton 07 - API Gateway
+        link(rel="stylesheet", href="/styles.css")
+    body
+        h1 Hackaton 07 - API Gateway
+        p Selecciona qué quieres consultar:
+
+        h2 GitHub
+        form(action="/github" method="get")
+            label(for="username") Usuario de GitHub:
+            input(type="text" id="username" name="username" placeholder="RonyChang" required)
+            button(type="submit") Buscar
+
+        h2 Clima
+        form(action="/clima" method="get")
+            label(for="ciudad") Ciudad:
+            input(type="text" id="clima" name="ciudad" placeholder="Lima" required)
+            button(type="submit") Ver clima
+
+        h2 Tipo de cambio desde USD
+        form(action="/cambio" method="get")
+            label(for="to") Moneda destino:
+            input(type="text" id="to" name="to" placeholder="PEN" maxlength="3")
+            label(for="amount") Monto en USD:
+            input(type="number" id="amount" name="amount" value="1" min="1" step="0.01")
+            button(type="submit") Convertir
+
+        h2 Pokemones
+        h3 Lista de Pokemones
+        form(action="/pokemones" method="get")
+            label(for="limit") Cantidad (o escribe "todos"):
+            input(type="text" id="limit" name="limit" placeholder="todos")
+            button(type="submit") Ver lista
+        h3 Poderes de Pokemon
+        form(action="/pokemon" method="get")
+            label(for="name") Elige un Pokémon:
+            input(type="text" id="name" name="name" placeholder="pikachu" required)
+            button(type="submit") Buscar
+
+        h2 Rick and Morty
+        h3 Lista de personajes
+        form(action="/rick" method="get")
+            label(for="limit") Cantidad (o escribe "todos"):
+            input(type="text" id="limit" name="limit" placeholder="todos")
+            button(type="submit") Ver lista
+
+        h3 Detalle de personaje
+        form(action="/rick/personaje" method="get")
+            label(for="name") Nombre del personaje:
+            input(type="text" id="rick-name" name="name" placeholder="rick sanchez" required)
+            button(type="submit") Ver detalle
+
+        h2 Cocteles
+        a(href="/cocktails") Obtener 10 cocktails al azar
+
+        h2 Tienda ficticia
+        h3 Lista de productos
+        form(action="/productos" method="get")
+            label(for="limit") Cantidad:
+            input(type="number" name="limit" value="10" min="1" max="20")
+            button(type="submit") Ver productos
+
+        h2 Fotos
+        form(action="/fotos" method="get")
+            label(for="q") Tema:
+            input(type="text" id="q" name="q" placeholder="gatos" required)
+            button(type="submit") Buscar fotos
+
+        h2 Frase famosa
+        a(href="/frase") Dame la frase del dia
+
+        h2 Usuario random
+        a(href="/random-user") Ver usuario aleatorio
+
+        h2 Películas
+
+        h2 Películas
+
+        h3 Top 10 estrenos populares
+        a(href="/peliculas") Ver top 10 estrenos
+
+        h3 Detalle por ID
+        form(action="/pelicula" method="get")
+            label(for="id") ID de la película:
+            input(type="number" id="id" name="id" placeholder="Ej: 550" min="1")
+            button(type="submit") Ver detalle por ID
+
+        h3 Detalle por nombre
+        form(action="/pelicula" method="get")
+            label(for="name") Nombre de la película:
+            input(type="text" id="name" name="name" placeholder="Bastardos sin Gloria" required)
+            button(type="submit") Ver detalle por nombre
+
+        h2 Marte
+        a(href="/mars") Ver datos de Marte

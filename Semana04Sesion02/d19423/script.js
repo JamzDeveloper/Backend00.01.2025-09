@@ -84,7 +84,7 @@ const Heladeria = function (){
 
         }
     }
-}();
+}();  
 
 function preparacionFormatter(value, row,index){
     return [

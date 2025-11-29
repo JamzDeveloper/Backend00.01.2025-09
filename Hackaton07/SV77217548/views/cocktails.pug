@@ -1,0 +1,46 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Cocteles al azar
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1 10 cocteles al azar
+
+    p
+      a(href="/") ← Volver al inicio
+
+    if error
+      p.error= error
+    else if drinks && drinks.length
+      ul
+        each d in drinks
+          li
+            h2= d.strDrink
+            if d.strDrinkThumb
+              img(src=d.strDrinkThumb alt=d.strDrink width="120")
+            if d.strAlcoholic
+              p
+                strong Tipo:
+                |  #{d.strAlcoholic}
+            if d.strCategory
+              p
+                strong Categoría:
+                |  #{d.strCategory}
+            if d.strGlass
+              p
+                strong Vaso:
+                |  #{d.strGlass}
+            if d.strInstructions
+              p
+                strong Instrucciones:
+                |  #{d.strInstructions}
+
+    else
+      p No se encontraron cocteles.
+
+    hr
+    details
+      summary Ver JSON completo de las bebidas
+      pre
+        = JSON.stringify(drinks, null, 2)

@@ -1,0 +1,78 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title GitHub - Usuario
+    link(rel="stylesheet", href="/styles.css")
+  body
+    a(href="/") ← Volver
+
+    h1 Resultado GitHub
+
+    // Form para poder volver a buscar otro usuario desde aquí
+    form(action="/github" method="get")
+      label(for="username") Usuario de GitHub:
+      input(type="text" id="username" name="username" placeholder="RonyChang" required)
+      button(type="submit") Buscar
+
+    hr
+
+    if error
+      p(style="color:red")= error
+
+    else if user
+      // Título principal con login
+      h2= user.login
+
+      // Avatar
+      if user.avatar_url
+        img(src=user.avatar_url, width="150", alt="Avatar")
+      
+      // Información principal
+      h3 Información básica
+      ul
+        li ID: #{user.id}
+        li Nombre: #{user.name || '—'}
+        li Ubicación: #{user.location || '—'}
+        li Tipo: #{user.type}
+        li ¿Administrador del sitio?: #{user.site_admin ? 'Sí' : 'No'}
+        li Bio: #{user.bio || '—'}
+        li Blog: #{user.blog || '—'}
+        li Twitter: #{user.twitter_username || '—'}
+
+      h3 Actividad
+      ul
+        li Repos públicos: #{user.public_repos}
+        li Gists públicos: #{user.public_gists}
+        li Seguidores: #{user.followers}
+        li Siguiendo: #{user.following}
+
+      h3 Enlaces
+      ul
+        if user.html_url
+          li
+            | Perfil: 
+            a(href=user.html_url target="_blank") #{user.html_url}
+        li API URL: #{user.url}
+        li Followers URL: #{user.followers_url}
+        li Following URL: #{user.following_url}
+        li Gists URL: #{user.gists_url}
+        li Starred URL: #{user.starred_url}
+        li Subscriptions URL: #{user.subscriptions_url}
+        li Organizations URL: #{user.organizations_url}
+        li Repos URL: #{user.repos_url}
+        li Events URL: #{user.events_url}
+        li Received events URL: #{user.received_events_url}
+
+      h3 Fechas
+      ul
+        li Creado en: #{user.created_at}
+        li Última actualización: #{user.updated_at}
+
+      hr
+      details
+        summary Ver JSON completo
+        pre= JSON.stringify(user, null, 2)
+
+    else
+      p No hay datos para mostrar.

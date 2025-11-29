@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Clima
+    link(rel="stylesheet", href="/styles.css")
+  body
+    a(href="/") ← Volver
+    h1 Clima
+
+    form(action="/clima" method="get")
+      label(for="ciudad") Ciudad:
+      input(type="text" name="ciudad" placeholder="Lima" required)
+      button(type="submit") Ver clima
+
+    if error
+      p(style="color:red")= error
+    else if weather
+      h2= ciudad
+      p Temperatura: #{weather.main.temp} °C
+      p Mínima: #{weather.main.temp_min} °C
+      p Máxima: #{weather.main.temp_max} °C
+      if weather.weather && weather.weather.length
+        p Descripción: #{weather.weather[0].description}
+
+      hr
+      details
+        summary Ver JSON completo
+        pre= JSON.stringify(weather, null, 2)
+
+
+    else
+      p Ingresa una ciudad para consultar el clima.
