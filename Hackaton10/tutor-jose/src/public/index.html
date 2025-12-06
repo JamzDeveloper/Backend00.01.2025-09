@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mi TODO</title>
+    <style>
+      :root {
+        font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+        color: #111;
+      }
+      body {
+        margin: 0;
+        background: #f6f7fb;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .card {
+        width: 100%;
+        max-width: 720px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 24px rgba(16, 24, 40, 0.08);
+        padding: 24px;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: 22px;
+      }
+      .new-task {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      input[type="text"],
+      textarea {
+        padding: 10px;
+        border: 1px solid #e6e9ef;
+        border-radius: 8px;
+        font-size: 14px;
+        width: 100%;
+      }
+      textarea {
+        min-height: 70px;
+        resize: vertical;
+      }
+      button {
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 0;
+        background: #0b5cff;
+        color: #fff;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .item {
+        padding: 14px;
+        border: 1px solid #e6e9ef;
+        border-radius: 10px;
+        background: #fafafa;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+      }
+      .name {
+        font-weight: 600;
+      }
+      .desc {
+        font-size: 13px;
+        color: #444;
+      }
+      .done {
+        background: #d1fae5;
+        border-color: #10b981;
+      }
+      .btn-small {
+        padding: 6px 10px;
+        font-size: 12px;
+        background: #10b981;
+      }
+      .btn-pend {
+        background: #f43f5e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Mi Lista de Tareas</h1>
+
+      <div class="new-task">
+        <input id="taskName" type="text" placeholder="Nombre de la tarea" />
+        <textarea id="taskDesc" placeholder="Descripción"></textarea>
+        <button id="addTask">Agregar tarea</button>
+      </div>
+
+      <h3>Pendientes</h3>
+      <ul id="pendingList"></ul>
+
+      <h3 style="margin-top: 20px">Completadas</h3>
+      <ul id="doneList"></ul>
+    </div>
+
+    <script>
+      // const pendingList = document.getElementById('pendingList');
+      // const doneList = document.getElementById('doneList');
+
+      // let tasks = JSON.parse(localStorage.getItem('tasks_todo')) || [];
+
+      // function render(){
+      //   pendingList.innerHTML = '';
+      //   doneList.innerHTML = '';
+
+      //   tasks.forEach(t => {
+      //     const li = document.createElement('li');
+      //     li.className = 'item' + (t.completed ? ' done' : '');
+
+      //     li.innerHTML = `
+      //       <div class="info">
+      //         <span class="name">${t.name}</span>
+      //         <span class="desc">${t.description}</span>
+      //       </div>
+      //       <button class="btn-small ${t.completed ? 'btn-pend' : ''}" onclick="toggle('${t._id}')">
+      //         ${t.completed ? 'Marcar pendiente' : 'Completar'}
+      //       </button>
+      //     `;
+
+      //     if(t.completed) doneList.appendChild(li);
+      //     else pendingList.appendChild(li);
+      //   });
+      // }
+
+      // function toggle(id){
+      //   tasks = tasks.map(t => t._id === id ? {...t, completed: !t.completed} : t);
+      //   save();
+      // }
+
+      // function save(){
+      //   localStorage.setItem('tasks_todo', JSON.stringify(tasks));
+      //   render();
+      // }
+
+      // document.getElementById('addTask').addEventListener('click', ()=>{
+      //   const name = document.getElementById('taskName').value.trim();
+      //   const desc = document.getElementById('taskDesc').value.trim();
+      //   if(!name) return alert('Nombre requerido');
+
+      //   tasks.push({
+      //     _id: crypto.randomUUID(),
+      //     name,
+      //     description: desc,
+      //     completed: false
+      //   });
+
+      //   document.getElementById('taskName').value = '';
+      //   document.getElementById('taskDesc').value = '';
+
+      //   save();
+      // });
+
+      // render();
+    </script>
+  </body>
+</html>
