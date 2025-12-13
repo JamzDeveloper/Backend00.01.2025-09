@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Item completado</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>body{background:#f6f7fb;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;padding:24px}.card{max-width:720px;margin:0 auto;padding:20px}</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Item marcado como hecho</h2>
+    <p><a href="/items" class="btn btn-secondary">Volver al listado</a></p>
+    <div id="content">Cargando...</div>
+  </div>
+
+  <script>
+    async function load() {
+      const path = window.location.pathname; // /items/:id/completed
+      const parts = path.split('/');
+      const id = parts[2];
+      const content = document.getElementById('content');
+      try {
+        const res = await fetch(`/api/items/${id}`);
+        const data = await res.json();
+        if (!data.success) {
+          content.innerHTML = `<div class="text-danger">${data.message || 'Item no encontrado'}</div>`;
+          return;
+        }
+        const item = data.data;
+        content.innerHTML = `
+          <h4>${escapeHtml(item.name)}</h4>
+          <p class="text-muted">${escapeHtml(item.description || '')}</p>
+          <p><strong>Completado:</strong> ${item.completed ? 'Sí' : 'No'}</p>
+          <p class="small text-muted">Fecha: ${item.date ? new Date(item.date).toLocaleString() : ''}</p>
+        `;
+      } catch (err) {
+        content.innerHTML = `<div class="text-danger">Error de red: ${err.message}</div>`;
+      }
+    }
+    function escapeHtml(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
+    load();
+  </script>
+</body>
+</html>

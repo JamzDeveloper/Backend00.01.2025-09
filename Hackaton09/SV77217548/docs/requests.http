@@ -1,0 +1,163 @@
+# Auth (login para obtener token de admin)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "asmin_password"
+}
+
+# Auth (login para obtener token de instructor)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "instructor@example.com",
+  "password": "instructor_password"
+}
+
+# Auth (login para obtener token de student)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "student@example.com",
+  "password": "student_password"
+}
+
+### Users
+# Crear usuario (por admin)
+POST http://localhost:3000/api/users
+Authorization: Bearer {{TOKEN_ADMIN}}
+Content-Type: application/json
+
+{
+  "firstName": "Olenka",
+  "lastName": "Altamirano",
+  "email": "student.2@example.com",
+  "password": "student_password",
+  "role": "student"
+}
+
+###
+# Listar usuarios con filtros/paginacion/busqueda
+GET http://localhost:3000/api/users?role=student&q=rony&page=1&pageSize=10
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+
+### Courses
+# Crear curso (solo admin/instructor)
+POST http://localhost:3000/api/courses
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+
+Content-Type: application/json
+
+{
+  "title": "Curso Backend avanzado",
+  "description": "APIs con Express y Sequelize",
+  "ownerId": 2,
+  "published": true,
+  "metadata": { "level": "avanzado", "tags": ["backend", "express", "sequelize"] }
+}
+
+###
+# Listar cursos con filtros y orden
+GET http://localhost:3000/api/courses?published=true&q=backend&order=createdAt:DESC&page=1&pageSize=10
+
+###
+# Detalle por slug (incluye owner, lessons, counts)
+GET http://localhost:3000/api/courses/curso-node-avanzado
+
+###
+# Actualizar curso
+PUT http://localhost:3000/api/courses/2
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+Content-Type: application/json
+
+{
+  "description": "Descripcion actualizada",
+  "published": false
+}
+
+###
+# Soft delete curso
+DELETE http://localhost:3000/api/courses/2
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+
+###
+# Restore curso (paranoid)
+POST http://localhost:3000/api/courses/2/restore
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+
+### Lessons
+# Crear leccion (order incremental)
+POST http://localhost:3000/api/courses/1/lessons
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+Content-Type: application/json
+
+{
+  "title": "Leccion 1",
+  "body": "Contenido minimo de prueba"
+}
+
+###
+# Listar lecciones de un curso
+GET http://localhost:3000/api/courses/1/lessons?order=ASC&page=1&pageSize=10
+
+###
+# Editar leccion
+PUT http://localhost:3000/api/courses/1/lessons/4
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+Content-Type: application/json
+
+{
+  "title": "Leccion 1 editada",
+  "body": "Contenido editado de la leccion"
+}
+
+###
+# Soft delete y restore leccion
+DELETE http://localhost:3000/api/courses/1/lessons/4
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+
+POST http://localhost:3000/api/courses/1/lessons/4/restore
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+
+### Enrollments
+# Inscribir alumno (status pending por defecto)
+POST http://localhost:3000/api/courses/2/enrollments
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+Content-Type: application/json
+
+{
+  "userId": 3
+}
+
+###
+# Cambiar status/score de inscripción
+PATCH http://localhost:3000/api/enrollments/2/status
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+Content-Type: application/json
+
+{
+  "status": "active",
+  "score": 18
+}
+
+###
+# Listar inscripciones de un curso (filtro por status)
+GET http://localhost:3000/api/courses/2/enrollments?status=active&page=1&pageSize=10
+Authorization: Bearer {{TOKEN_INSTRUCTOR}}
+
+### Comments
+# Crear comentario (usa user del token)
+POST http://localhost:3000/api/lessons/1/comments
+Authorization: Bearer {{TOKEN_STUDENT}}
+Content-Type: application/json
+
+{
+  "body": "Comentario con al menos 5 caracteres"
+}
+
+###
+# Listar comentarios de una leccion
+GET http://localhost:3000/api/lessons/1/comments?page=1&pageSize=5

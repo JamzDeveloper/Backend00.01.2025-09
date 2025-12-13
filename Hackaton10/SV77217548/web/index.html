@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listas de Compras</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <strong>Listas de Compras</strong>
+      <small id="sessionInfo" class="muted"></small>
+    </div>
+    <div class="env">
+      <label for="baseUrl">API</label>
+      <input id="baseUrl" type="text" value="http://localhost:8080/api" />
+      <button id="saveBaseUrl">Usar</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section id="authSection" class="card">
+      <h2>Acceso</h2>
+      <div class="columns">
+        <form id="registerForm">
+          <h3>Registrarse</h3>
+          <label>Email <input name="email" type="email" required /></label>
+          <label>Password (min 6) <input name="password" type="password" minlength="6" required /></label>
+          <button type="submit">Crear cuenta</button>
+        </form>
+        <form id="loginForm">
+          <h3>Iniciar sesión</h3>
+          <label>Email <input name="email" type="email" required /></label>
+          <label>Password <input name="password" type="password" required /></label>
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+      <div id="authStatus" class="status"></div>
+    </section>
+
+    <section id="listsSection" class="card hidden">
+      <div class="actions">
+        <h2>Mis listas de compras</h2>
+        <div class="actions">
+          <button id="showCreate">Crear lista</button>
+          <button id="logout">Cerrar sesión</button>
+        </div>
+      </div>
+      <div id="listsContainer" class="list"></div>
+      <div id="listsStatus" class="status"></div>
+    </section>
+
+    <section id="createSection" class="card hidden">
+      <div class="actions">
+        <h2>Nueva lista</h2>
+        <button id="cancelCreate" type="button">Volver</button>
+      </div>
+      <form id="createForm">
+        <label>Título <input name="titulo" type="text" required /></label>
+        <div class="actions">
+          <span>Productos</span>
+          <button type="button" id="addItem">Agregar producto</button>
+        </div>
+        <div id="itemsContainer" class="list"></div>
+        <button type="submit">Terminar lista</button>
+        <div id="createStatus" class="status"></div>
+      </form>
+    </section>
+
+    <section id="detailSection" class="card hidden">
+      <div class="actions">
+        <button id="backToLists" type="button">Volver</button>
+        <div>
+          <h2 id="detailTitle"></h2>
+          <span id="detailEstado" class="badge"></span>
+        </div>
+        <div class="actions">
+          <button id="showEdit" type="button" class="secondary">Editar</button>
+          <button id="toggleAllDetails" type="button">Mostrar todos</button>
+          <button id="duplicateList" type="button">Duplicar</button>
+          <button id="deleteList" type="button" class="secondary">Eliminar</button>
+        </div>
+      </div>
+      <div id="itemsList" class="list"></div>
+      <div id="detailStatus" class="status"></div>
+    </section>
+
+    <section id="editSection" class="card hidden">
+      <div class="actions">
+        <h2>Editar lista</h2>
+        <button id="cancelEdit" type="button">Cancelar</button>
+      </div>
+      <form id="editForm">
+        <label>Título <input name="titulo" type="text" required /></label>
+        <div class="actions">
+          <span>Productos</span>
+          <button type="button" id="addEditItem">Agregar producto</button>
+        </div>
+        <div id="editItemsContainer" class="list"></div>
+        <button type="submit">Guardar cambios</button>
+        <div id="editStatus" class="status"></div>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿INFORME – RETO 1: BASES DE DATOS RELACIONALES
+Hackathon Semanal 8 – NodeJS y API
+1. Las 12 Reglas de Codd (1970)
+Edgar Frank Codd publicó en 1970 el modelo relacional y definió 12 reglas fundamentales (luego amplió a 13, pero las 12 originales son las más conocidas). Estas reglas son la base de lo que hoy llamamos “base de datos relacional verdadera”.
+Nº
+	Nombre de la Regla
+	Explicación breve
+	1
+	Regla de la información
+	Toda la información debe estar representada explícitamente como valores en tablas (no en metadatos ni archivos externos).
+	2
+	Regla del acceso garantizado
+	Todo dato debe ser accesible lógicamente mediante combinación de nombre de tabla + clave primaria + nombre de columna.
+	3
+	Tratamiento sistemático de valores nulos
+	Los valores NULL deben ser soportados para representar información desconocida o no aplicable.
+	4
+	Catálogo relacional dinámico en línea
+	El diccionario de datos (catálogo) debe estar almacenado en tablas y ser consultable con el mismo lenguaje (SQL).
+	5
+	Regla del sublenguaje de datos comprehensivo
+	Debe existir al menos un lenguaje que permita definición, manipulación y control de datos (hoy es SQL).
+	6
+	Regla de actualización de vistas
+	Todas las vistas teóricamente actualizables deben serlo en la práctica por el sistema.
+	7
+	Inserción, actualización y eliminación de alto nivel
+	El sistema debe permitir operar conjuntos de filas con una sola instrucción.
+	8
+	Independencia física de los datos
+	Los cambios en el almacenamiento físico no deben afectar las aplicaciones.
+	9
+	Independencia lógica de los datos
+	Los cambios en la estructura de tablas no deben romper aplicaciones existentes (siempre que usen vistas).
+	10
+	Independencia de la integridad
+	Las reglas de integridad deben almacenarse en el catálogo y no en el código de la aplicación.
+	11
+	Independencia de la distribución
+	El lenguaje debe permitir trabajar igual si los datos están distribuidos o no.
+	12
+	Regla de la no subversión
+	No debe existir un lenguaje de bajo nivel que permita violar las reglas de integridad.
+	2. Normalización de Bases de Datos
+La normalización es el proceso de organizar las tablas y columnas para reducir la redundancia y mejorar la integridad de los datos. Se basa en las Formas Normales (1NF, 2NF, 3NF, BCNF, 4NF, 5NF…).
+Forma Normal
+	Requisito principal
+	Ejemplo de problema que soluciona
+	1NF
+	Valores atómicos, sin grupos repetitivos
+	Tabla con columna “teléfonos” que tiene “123,456,789”
+	2NF
+	Estar en 1NF + columnas no clave dependen totalmente de la clave primaria
+	Datos de profesor repetidos en tabla Alumno-Profesor-Curso
+	3NF
+	Estar en 2NF + no dependencias transitivas
+	Dirección del departamento repetida por cada empleado
+	BCNF
+	Estar en 3NF + toda dependencia funcional tiene una superclave como determinante
+	Casos especiales donde hay varias claves candidatas
+	4NF
+	Eliminar dependencias multivaluadas
+	Un profesor que da varios cursos en varios salones
+	5NF
+	Eliminar dependencias de unión
+	Casos muy complejos, casi nunca se llega en la práctica
+	
+
+Proceso típico en la vida real:
+Se suele normalizar hasta 3NF o BCNF. Después de eso se evalúa si desnormalizar un poco por rendimiento.
+
+
+3. El Modelo Relacional para el modelado y la gestión de bases de datos
+El modelo relacional (propuesto por E.F. Codd en 1970) se basa en:
+* Datos organizados en tablas (relaciones)
+* Cada tabla tiene filas (tuplas) y columnas (atributos)
+* Las relaciones entre tablas se hacen mediante claves foráneas
+* Se utiliza álgebra relacional y cálculo relacional como base teórica
+* Lenguaje práctico: SQL (Structured Query Language)
+Ventajas del modelo relacional
+* Simplicidad y claridad
+* Independencia de datos (física y lógica)
+* Integridad referencial
+* Potente lenguaje declarativo (SQL)
+* Soporte ACID en la mayoría de los SGBD (MySQL, PostgreSQL, Oracle, SQL Server, MariaDB, etc.)
+Desventajas (por eso surgieron NoSQL)
+* Rendimiento con grandes volúmenes de datos no estructurados
+* Escalabilidad horizontal más complicada
+* Rigidez del esquema
+
+
+  https://www.timetoast.com/timelines/dbms 
+
+
+Conclusión
+El modelo relacional sigue siendo, en 2025, la opción dominante para la mayoría de aplicaciones empresariales y transaccionales gracias a su solidez teórica (12 reglas de Codd), su capacidad de garantizar integridad mediante normalización y su lenguaje universal SQL.
+
+
+Claus Dereck Albrecht Narro

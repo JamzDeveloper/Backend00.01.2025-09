@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mi TODO</title>
+    <style>
+      :root {
+        font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+        color: #111;
+      }
+      body {
+        margin: 0;
+        background: #f6f7fb;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .card {
+        width: 100%;
+        max-width: 720px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 24px rgba(16, 24, 40, 0.08);
+        padding: 24px;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: 22px;
+      }
+      .new-task {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      input[type="text"],
+      textarea {
+        padding: 10px;
+        border: 1px solid #e6e9ef;
+        border-radius: 8px;
+        font-size: 14px;
+        width: 100%;
+      }
+      textarea {
+        min-height: 70px;
+        resize: vertical;
+      }
+      button {
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 0;
+        background: #0b5cff;
+        color: #fff;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .item {
+        padding: 14px;
+        border: 1px solid #e6e9ef;
+        border-radius: 10px;
+        background: #fafafa;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+      }
+      .name {
+        font-weight: 600;
+      }
+      .desc {
+        font-size: 13px;
+        color: #444;
+      }
+      .date {
+        font-size: 12px;
+        color: #666;
+        margin-top: 4px;
+      }
+      .done {
+        background: #d1fae5;
+        border-color: #10b981;
+      }
+      .btn-small {
+        padding: 6px 10px;
+        font-size: 12px;
+        background: #10b981;
+      }
+      .btn-pend {
+        background: #f43f5e;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>Mi Lista de Tareas</h1>
+
+      <div class="new-task">
+        <input id="taskName" type="text" placeholder="Nombre de la tarea" />
+        <textarea id="taskDesc" placeholder="Descripción"></textarea>
+        <button id="addTask">Agregar tarea</button>
+      </div>
+
+      <h3>Pendientes</h3>
+      <ul id="pendingList"></ul>
+
+      <h3 style="margin-top: 20px">Completadas</h3>
+      <ul id="doneList"></ul>
+    </div>
+
+    <script>
+      const API = "/items";
+
+      document.getElementById("addTask").addEventListener("click", async () => {
+        const nombre = document.getElementById("taskName").value.trim();
+        const descripcion = document
+          .getElementById("taskDesc")
+          .value.trim();
+
+        if (!nombre) return;
+
+        await fetch(`${API}/crear`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nombre, descripcion })
+        });
+
+        document.getElementById("taskName").value = "";
+        document.getElementById("taskDesc").value = "";
+
+        cargarListas();
+      });
+
+      async function cargarListas() {
+        cargarPendientes();
+        cargarCompletados();
+      }
+
+      async function cargarPendientes() {
+        const res = await fetch(`${API}/pendientes`);
+        const data = await res.json();
+
+        const ul = document.getElementById("pendingList");
+        ul.innerHTML = "";
+
+        data.forEach(item => {
+          const fechaFormateada = new Date(item.fecha).toLocaleDateString("es-PE");
+
+          const li = document.createElement("li");
+          li.className = "item";
+          li.innerHTML = `
+            <div class="info">
+              <span class="name">${item.nombre}</span>
+              <span class="desc">${item.descripcion}</span>
+              <span class="date">Creado: ${fechaFormateada}</span>
+            </div>
+            <div>
+              <button class="btn-small" onclick="completar('${item._id}')">✔</button>
+              <button class="btn-small btn-pend" onclick="eliminar('${item._id}')">X</button>
+            </div>
+          `;
+          ul.appendChild(li);
+        });
+      }
+
+      async function cargarCompletados() {
+        const res = await fetch(`${API}/completados`);
+        const data = await res.json();
+
+        const ul = document.getElementById("doneList");
+        ul.innerHTML = "";
+
+        data.forEach(item => {
+          const fechaFormateada = new Date(item.fecha).toLocaleDateString("es-PE");
+
+          const li = document.createElement("li");
+          li.className = "item done";
+          li.innerHTML = `
+            <div class="info">
+              <span class="name">${item.nombre}</span>
+              <span class="desc">${item.descripcion}</span>
+              <span class="date">Creado: ${fechaFormateada}</span>
+            </div>
+            <button class="btn-small btn-pend" onclick="eliminar('${item._id}')">X</button>
+          `;
+          ul.appendChild(li);
+        });
+      }
+
+      async function completar(id) {
+        await fetch(`${API}/completar/${id}`, { method: "PUT" });
+        cargarListas();
+      }
+
+      async function eliminar(id) {
+        await fetch(`${API}/eliminar/${id}`, { method: "DELETE" });
+        cargarListas();
+      }
+
+      cargarListas();
+    </script>
+  </body>
+</html>

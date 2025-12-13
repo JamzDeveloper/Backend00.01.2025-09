@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Items completados</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>body{background:#f6f7fb;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;padding:24px}.card{max-width:800px;margin:0 auto;padding:20px}ul{list-style:none;padding:0}.item{padding:12px;border:1px solid #e6e9ef;border-radius:8px;margin-bottom:10px;background:#fff}</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Items Completados</h2>
+    <p>
+      <a href="/" class="btn btn-secondary">Volver</a>
+      <a href="/items" class="btn btn-link">Ver todos</a>
+    </p>
+
+    <div id="loading">Cargando...</div>
+    <div id="error" class="text-danger" style="display:none"></div>
+
+    <ul id="itemsList"></ul>
+  </div>
+
+  <script>
+    async function loadCompleted() {
+      const loading = document.getElementById('loading');
+      const error = document.getElementById('error');
+      const list = document.getElementById('itemsList');
+
+      try {
+        const res = await fetch('/api/items/completed');
+        const data = await res.json();
+        loading.style.display = 'none';
+
+        if (!data.success) {
+          error.style.display = 'block';
+          error.textContent = data.message || 'Error cargando items';
+          return;
+        }
+
+        const items = data.data || [];
+        if (items.length === 0) {
+          list.innerHTML = '<li>No hay items completados</li>';
+          return;
+        }
+
+        list.innerHTML = items.map(item => {
+          const date = item.date ? new Date(item.date).toLocaleString() : '';
+          return `\n<li class="item">\n  <div>\n    <div><strong>${escapeHtml(item.name)}</strong></div>\n    <div class="text-muted">${escapeHtml(item.description || '')}</div>\n    <div class="text-muted small">${date}</div>\n  </div>\n  <div>\n    <a class="btn btn-sm btn-primary" href="/items/${item._id}/completed">Ver</a>\n  </div>\n</li>`;
+        }).join('');
+      } catch (err) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        error.textContent = err.message || 'Error de red';
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    loadCompleted();
+  </script>
+</body>
+</html>

@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/lsantacruzvargas-creator/Backend00.01.2025-09/issues"
   },
-  "homepage": "https://github.com/lsantacruzvargas-creator/Backend00.01.2025-09#readme"
+  "homepage": "https://github.com/lsantacruzvargas-creator/Backend00.01.2025-09#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0"
+  }
 }

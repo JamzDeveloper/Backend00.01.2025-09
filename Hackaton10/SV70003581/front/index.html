@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div>
+        <div>
+            <h2>
+                AGREGAR <button type="button" id="showButton">Agregar elemento</button>
+            </h2>
+            <div id="formulario">
+                <form id="form01">
+                    <label for="fname">Nombre:</label><br>
+                    <input type="text" id="title" size="32"><br>
+                    <label for="lname">Descripción:</label><br>
+                    <input type="text" id="descripcion" size="64"><br><br>                    
+                </form>                
+                <button type="button" id="addButton">Agregar elemento</button>
+            </div>
+            <hr>
+            <h2>MOSTRAR</h2>
+            <button type="button" id="getButton">Todos los elementos</button>
+            <button type="button" id="getPendingsButton">Solo elementos pendientes</button>
+            <button type="button" id="getCompleteButton">Solo elementos completados</button><br><br>
+            <input id="idItem"><button type="button" id="getIdButton">Buscar por Id</button><br><br>
+            <hr>
+        </div>
+        <div>
+            <h2>LISTA DE COMPRAS</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-items"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
