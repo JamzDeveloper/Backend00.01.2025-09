@@ -12,16 +12,6 @@ const AUTH_THEMOVIEDB = process.env.AUTH_THEMOVIEDB;
 const HEAD_THEMOVIEDB = process.env.HEAD_THEMOVIEDB;
 const KEY_NASA = process.env.KEY_NASA;
 
-/* USAR SOLO EN CASO ALGO SALGA MAL
-const HOST_RAPIDAPI = process.env.HOST_RAPIDAPI || 'weather-api99.p.rapidapi.com';
-const KEY_RAPIAPI = process.env.KEY_RAPIAPI || '6db17bf231msh331725f8e29adcbp111dcajsnbdba64938bd3';
-const KEY_TCA = process.env.KEY_TCA || 'jIZIg4eqDod0uzd8eL62P7uZWC8LpGa4';
-const CLIENT_UNS = process.env.CLIENT_UNS || 'aMPTBjp1ln3L6bsWqWFRSSi5if7T8vY';
-const AUTH_THEMOVIEDB = process.env.AUTH_THEMOVIEDB || 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NGU0ZThkYTQ4MzBhNWNkYzk2YWU4NDNlY2I3MzdhMiIsIm5iZiI6MTc2MzI1NzY4Ni4wNTYsInN1YiI6IjY5MTkyZDU2YTA0YmZjNTZlNDlhZTJkMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.M_qO9D1RxakfpKVPkPZ_D1tWs25IdoqgJctoHSCP-iI';
-const HEAD_THEMOVIEDB = process.env.HEAD_THEMOVIEDB || 'application/json';
-const KEY_NASA = process.env.KEY_NASA || 'JSpovFlnjQGnxFmH6Cx0dqaOMpoN4t6efsP3qQzf';
-*/
-
 //CREACIÓN DE UN SERVIDOR HTTP USANDO EXPRESS
 
 app.use(express.json());

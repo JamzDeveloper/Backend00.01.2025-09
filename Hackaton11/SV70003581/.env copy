@@ -1,0 +1,7 @@
+# (1) Variables de entorno del proyecto.
+# Configurar credenciales, puertos y claves antes de iniciar el desarrollo.
+# Se reemplaza al entregar a QA o producción.
+
+PORT = 3000
+API_KEY = 123123123
+MONGO_URI = YOUR_MONGO_URI_WITHOUT_DBNAME
