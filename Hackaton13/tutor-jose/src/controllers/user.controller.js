@@ -12,10 +12,21 @@ const getUsers = async (req = request, res = response) => {
   });
 };
 
+const getUserId = async (req = request, res = response) => {
+  const { userId } = req.params;
+  const result = await UserModel.findById(userId);
+
+  console.log(result);
+  res.json({
+    success: true,
+    data: result,
+  });
+};
+
 const createUser = async (req = request, res = response) => {
   try {
     const { name, email, password } = req.body;
-   
+
     //TODO: buscar si existe un usuario con el correo enviado
 
     const passwordHash = await bcrypt.hash(password, 10);
@@ -24,6 +35,7 @@ const createUser = async (req = request, res = response) => {
       name,
       email,
       passwordHash: passwordHash,
+      avatar: req.file.path ?? null,
     });
 
     const userToJson = user.toJSON();
@@ -40,4 +52,4 @@ const createUser = async (req = request, res = response) => {
     });
   }
 };
-export { getUsers, createUser };
+export { getUsers, createUser, getUserId };
