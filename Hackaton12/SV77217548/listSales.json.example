@@ -1,0 +1,16 @@
+[
+  {
+    "id": "56ebc89e-5b3c-4e07-a28c-efc5ff528d7e",
+    "name": "Venta 1",
+    "description": "Productos 1",
+    "date": "2025-12-18",
+    "esCompletado": false
+  },
+  {
+    "id": "2b20bc0b-0db7-4ab1-bb23-0f40c53eadff",
+    "name": "Venta 2",
+    "description": "Productos 2",
+    "date": "2025-12-18",
+    "esCompletado": true
+  }
+]
