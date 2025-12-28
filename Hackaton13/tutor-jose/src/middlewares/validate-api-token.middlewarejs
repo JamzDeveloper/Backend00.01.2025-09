@@ -1,0 +1,17 @@
+const validateApiToken = (req = request, res = response, next) => {
+  try {
+
+    //leer de las variables un api-key
+    const apiToken = req.header("api-token");
+    /// validar si es correcta 
+    //no es correcta --> 401, 403
+
+    //si es correcta hacer un next()
+
+  } catch (err) {
+    res.status(500).json({
+      message: "Error in validate token middleware",
+      error: err.message,
+    });
+  }
+};
