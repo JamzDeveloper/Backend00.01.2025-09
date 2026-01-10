@@ -4,6 +4,7 @@ import { env } from "./config/env.js";
 import cookieParser from "cookie-parser";
 import { sessionConfig } from "./config/session.js";
 import { AuthSessionRoute } from "./routes/authSession.routes.js";
+import { UserRoute } from "./routes/users.route.js";
 // import { mongoose } from "../config/db.js";
 class Server {
   constructor() {
@@ -11,7 +12,8 @@ class Server {
     this.port = env.PORT;
     // this.mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/test";
     this.versionApi = "/api/v1";
-    this.sessionPath=  `${this.versionApi}/session`
+    this.sessionPath = `${this.versionApi}/session`;
+    this.usersPath = `${this.versionApi}/users`;
 
     this.middleware();
     this.routes();
@@ -34,7 +36,9 @@ class Server {
       });
     });
 
-    this.app.use(this.sessionPath,AuthSessionRoute)
+    this.app.use(this.sessionPath, AuthSessionRoute);
+
+    this.app.use(this.usersPath, UserRoute);
   }
 
   async dbConnection() {

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { findUserByEmail } from "../services/user.service.js";
 import { verifyPassword } from "../utils/passwords.js";
+import { requireAuthSession } from "../middleware/authSession.middleware.js";
 const router = Router();
 
 router.post("/login", async (req, res) => {
@@ -22,15 +23,11 @@ router.post("/login", async (req, res) => {
   });
 });
 
-router.get("/me", (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ error: "Not authenticated" });
-  }
-
+router.get("/me", requireAuthSession, (req, res) => {
   res.json({ user: req.session.user });
 });
 
-router.post("/logout", (req, res) => {
+router.post("/logout",requireAuthSession, (req, res) => {
   req.session.destroy((err) => {
     if (err) return res.status(500).json({ error: "Logout error" });
 
