@@ -2,9 +2,12 @@ import express from "express";
 import cors from "cors";
 import { env } from "./config/env.js";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 import { sessionConfig } from "./config/session.js";
 import { AuthSessionRoute } from "./routes/authSession.routes.js";
 import { UserRoute } from "./routes/users.route.js";
+import { AuthJwtRoute } from "./routes/authJwt.routes.js";
+import {limiter} from "./config/rate-limit.js"
 // import { mongoose } from "../config/db.js";
 class Server {
   constructor() {
@@ -14,6 +17,7 @@ class Server {
     this.versionApi = "/api/v1";
     this.sessionPath = `${this.versionApi}/session`;
     this.usersPath = `${this.versionApi}/users`;
+    this.authJwtPath = `${this.versionApi}/jwt`;
 
     this.middleware();
     this.routes();
@@ -21,12 +25,15 @@ class Server {
   }
 
   middleware() {
-    this.app.use(cors());
+    this.app.set("trust proxy", 1);
     this.app.use(express.json());
+    this.app.use(cors());
+    this.app.use(helmet());
     this.app.use(cookieParser());
 
     this.app.use(sessionConfig);
-    // this.app.set("trust proxy", 1);
+    this.app.use(limiter)
+
   }
 
   routes() {
@@ -39,6 +46,8 @@ class Server {
     this.app.use(this.sessionPath, AuthSessionRoute);
 
     this.app.use(this.usersPath, UserRoute);
+
+    this.app.use(this.authJwtPath, AuthJwtRoute);
   }
 
   async dbConnection() {

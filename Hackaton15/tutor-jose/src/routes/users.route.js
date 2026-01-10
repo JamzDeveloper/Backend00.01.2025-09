@@ -1,15 +1,19 @@
 import { Router } from "express";
-import { findAllUser } from "../services/user.service.js";
+import { findAdminUser, findAllUser } from "../services/user.service.js";
 import { requireAuthSession } from "../middleware/authSession.middleware.js";
+import { verifyTokenJwt } from "../middleware/validate-jwt.middleware.js";
 const router = Router();
 
 router.get("/", requireAuthSession, (req, res) => {
+  ///cambiar  solo mostrar usuarios con el role user
   res.json(findAllUser());
 });
 
+router.get("/admin", verifyTokenJwt, (req, res) => {
+  res.json(findAdminUser());
+});
+
 export { router as UserRoute };
-
-
 
 /**
  * success:boolean
@@ -17,6 +21,6 @@ export { router as UserRoute };
  * message:string,
  * data:any
  * errors:[object]
- * 
- * 
-*/
+ *
+ *
+ */
