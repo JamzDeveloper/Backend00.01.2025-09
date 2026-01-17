@@ -40,7 +40,7 @@ wsServer.on("request",(request)=>{
                     maxBodyLength: Infinity,
                     url: `https://the-weather-api.p.rapidapi.com/api/weather/${objMensaje.query}`,
                     headers: {
-                        'X-RapidAPI-Key': '73d70d2c28msh7f79106bce6c25ep19a96ajsn943644966186',
+                        'X-RapidAPI-Key': 'API-KEY', // Aquí se cambia tu API-KEY
                         'X-RapidAPI-Host': 'the-weather-api.p.rapidapi.com'
                     }
                 };

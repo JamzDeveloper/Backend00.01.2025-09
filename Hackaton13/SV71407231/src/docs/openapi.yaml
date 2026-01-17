@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: Hackatón Express API
+  version: 1.0.0
+  description: API desarrollada con Express.js
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /api/health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/users:
+    get:
+      summary: Listar usuarios
+      responses:
+        "200":
+          description: Lista de usuarios
+    post:
+      summary: Crear usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        "201":
+          description: Usuario creado
+
+  /api/v1/orders:
+    get:
+      summary: Listar órdenes
+      parameters:
+        - in: header
+          name: x-token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Lista de órdenes
+
+  /api/v1/uploads/avatar:
+    post:
+      summary: Subir avatar
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Archivo subido
+
+  /api/v1/payments:
+    post:
+      summary: Crear pago idempotente
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount, method]
+              properties:
+                amount:
+                  type: number
+                method:
+                  type: string
+      responses:
+        "201":
+          description: Pago creado
+
+  /api/metrics:
+    get:
+      summary: Métricas de la API
+      responses:
+        "200":
+          description: Métricas

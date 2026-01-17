@@ -1,0 +1,14 @@
+const validateApiKey = (req, res, next) => {
+    const apiKey = req.headers['x-api-key'];
+    const expectedKey = process.env.API_KEY || 'DEMO_KEY';
+
+    if (!apiKey){
+        return res.status(401).json({error: 'API key requerida'})
+    }
+    if (apiKey !== expectedKey){
+        return res.status(403).json({error: 'API key invalida'})
+    }
+    next();
+};
+
+module.exports = validateApiKey;

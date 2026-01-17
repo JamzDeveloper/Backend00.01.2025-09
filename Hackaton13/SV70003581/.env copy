@@ -1,0 +1,4 @@
+MONGO_URL = your_mongo_url
+PORT = 3000
+API_TOKEN = 123123
+NODE_ENV = 'production'

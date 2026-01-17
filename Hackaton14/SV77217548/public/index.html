@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hackaton 14 - Chat Persistente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div id="auth-screen" class="auth-screen">
+        <div class="auth-card">
+            <p class="eyebrow">Hackaton 14</p>
+            <h2>Acceso al chat</h2>
+            <p class="subtitle">Inicia sesion o crea tu usuario para continuar.</p>
+            <div class="auth-tabs">
+                <button type="button" class="tab active" data-mode="login">Ingresar</button>
+                <button type="button" class="tab" data-mode="register">Registrar</button>
+            </div>
+            <form id="auth-form" class="auth-form">
+                <label class="field">
+                <span>Usuario</span>
+                <input id="auth-username" type="text" placeholder="tu_usuario" maxlength="20" required />
+            </label>
+            <label class="field">
+                <span>Contrasena</span>
+                <input id="auth-password" type="password" placeholder="Minimo 6 caracteres" required />
+            </label>
+            <button id="auth-submit" type="submit">Ingresar</button>
+            <p id="auth-error" class="auth-error" role="alert"></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="app hidden" id="chat-app">
+        <header class="header">
+            <div>
+                <p class="eyebrow">Hackaton 14</p>
+                <h1>Chat persistente + ChatGPT</h1>
+                <p class="subtitle">Socket.io, MongoDB y asistente en tiempo real.</p>
+            </div>
+            <div class="header-actions">
+            <div class="user-pill">
+                <span>Usuario</span>
+                <strong id="current-user">-</strong>
+            </div>
+            <button id="logout-button" type="button" class="secondary">Cerrar sesion</button>
+            <button id="clear-button" type="button" class="secondary">Borrar historial</button>
+            </div>
+        </header>
+
+        <main class="chat">
+            <div class="chat-tools">
+                <div id="typing-indicator" class="typing-indicator hidden">Asistente escribiendo...</div>
+            </div>
+            <div id="messages" class="messages"></div>
+        </main>
+
+        <form id="message-form" class="composer">
+            <input
+            id="message-input"
+            type="text"
+            placeholder="Escribe tu mensaje..."
+            autocomplete="off"
+            required
+            />
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

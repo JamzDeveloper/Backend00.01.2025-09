@@ -1,0 +1,9 @@
+PORT=your_port
+NODE_ENV=maybe_development
+SESSION_SECRET=super-secret-please-change
+JWT_ACCESS_SECRET=access-secret-change
+JWT_REFRESH_SECRET=refresh-secret-change
+ACCESS_TTL=10m
+REFRESH_TTL=7d
+DATABASE_URL=your_db_url
+CSRF_SECRET=csrf-change-me
