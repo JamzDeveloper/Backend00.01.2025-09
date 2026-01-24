@@ -38,19 +38,34 @@ class Server {
   }
 
   middleware() {
+    this.app.use(express.static(join(__dirname, "public")));
+
     this.app.set("trust proxy", 1);
     this.app.use(express.json());
     this.app.use(cors());
-    this.app.use(helmet());
+    this.app.use(
+      helmet({
+        contentSecurityPolicy: {
+          directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'"],
+            connectSrc: ["'self'", "ws:", "wss:"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:"],
+          },
+        },
+      }),
+    );
     this.app.use(cookieParser());
 
     this.app.use(sessionConfig);
     this.app.use(limiter);
+    this.initSocket();
   }
 
   routes() {
     this.app.get("/", (req, res) => {
-      res.sendFile(join(__dirname,'../' ,"index.html"));
+      res.sendFile(join(__dirname, "/public", "index.html"));
     });
 
     this.app.get(`${this.versionApi}/health`, (req, res) => {
@@ -71,7 +86,7 @@ class Server {
     // console.log("MongoDb connected");
   }
 
-  async io() {
+  async initSocket() {
     //escucha una conexion
     this.io.on("connection", (socket) => {
       console.log("a user connected");
@@ -98,7 +113,7 @@ class Server {
     });
   }
   listen() {
-    this.app.listen(this.port, () => {
+    this.server.listen(this.port, () => {
       console.log(`listening in port ${this.port}`);
     });
   }
