@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    container_name: sv71407231_api
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
